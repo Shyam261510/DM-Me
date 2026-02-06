@@ -13,6 +13,17 @@ export const NEXT_AUTH = {
   session: {
     updateAge: 30 * 60, // session for 30 min
   },
+  cookies: {
+    sessionToken: {
+      name: `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   callbacks: {
     async signIn({ user }: any) {
       try {
