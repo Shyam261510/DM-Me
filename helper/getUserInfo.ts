@@ -5,8 +5,8 @@ interface GetUserInfoTypes {
   userId?: string;
   url?: string;
 }
-export const getUserInfo = async ({ email, userId, url }: GetUserInfoTypes) => {
-  if (!email && !userId && !url) {
+export const getUserInfo = async ({ email, userId }: GetUserInfoTypes) => {
+  if (!email && !userId) {
     return { success: false, message: "No email or userId or url provided" };
   }
 
@@ -20,9 +20,7 @@ export const getUserInfo = async ({ email, userId, url }: GetUserInfoTypes) => {
   // `${process.env.BACKEND_ENDPOINT}/api/get_user_info?email=${email}`
   // If user does not provide the userId and email then user must provide their own custom url to make api call
   try {
-    const res = await axios.get(
-      email || userId ? (customURL as string) : (url as string),
-    );
+    const res = await axios.get(customURL);
     const { success, message, user } = res.data;
     if (!success) {
       return { success: false, message };

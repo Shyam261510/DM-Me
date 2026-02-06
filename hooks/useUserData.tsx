@@ -7,6 +7,7 @@ import { getUserInfo } from "@/helper/getUserInfo";
 import { setUser } from "@/libs/dataslice";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import axios from "axios";
 
 export const useUserData = () => {
   const { data: session, status } = useSession();
@@ -17,9 +18,10 @@ export const useUserData = () => {
     enabled: status === "authenticated",
     staleTime: 20_000,
     queryFn: async () => {
-      return await getUserInfo({
-        url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/api/get_user_info?userId=${session?.user?.id}`,
-      });
+      const res = await axios.get(
+        `/api/auth/getUserInfo?userId=${session?.user?.id}`,
+      );
+      return res.data;
     },
   });
 
