@@ -11,7 +11,7 @@ import { successToast } from "../frontendComponents/Toasts/toast";
 
 function Home() {
   const userInfo = useSelector((state: RootState) => state.dataSlice.user);
-  const message = getMessage(userInfo.username, userInfo.id);
+  const message = getMessage(userInfo.username, userInfo.email);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
