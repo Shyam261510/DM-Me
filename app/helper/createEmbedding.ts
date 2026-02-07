@@ -1,5 +1,5 @@
 import { embed } from "ai";
-import { google } from "@ai-sdk/google";
+import { openai } from "@ai-sdk/openai";
 
 export const createEmbedding = async (text: string) => {
   try {
@@ -8,7 +8,7 @@ export const createEmbedding = async (text: string) => {
     }
 
     const result = await embed({
-      model: google.embedding(process.env.EMBEDDING_MODEL!),
+      model: openai.embedding(`${process.env.EMBEDDING_MODEL!}`),
       value: text,
     });
 
