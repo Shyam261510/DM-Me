@@ -1,21 +1,14 @@
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { resetState } from "@/libs/dataslice";
-import { useUserData } from "@/hooks/useUserData";
-
+import { useSession } from "next-auth/react";
 function Profile() {
-  const { user } = useUserData();
+  const { data: session, status } = useSession();
   const navigate = useRouter();
   const dispatch = useDispatch();
 
@@ -30,25 +23,27 @@ function Profile() {
       {/* User Info */}
       <div className="flex items-center gap-3 min-w-0">
         <Avatar className="h-9 w-9">
-          {user?.image ? (
+          {session?.user?.image ? (
             <Image
-              src={user.image}
-              alt={user.name ?? "User"}
+              src={session?.user.image as string}
+              alt={session?.user.name ?? "User"}
               width={36}
               height={36}
               className="rounded-full object-cover"
             />
           ) : (
             <AvatarFallback className="bg-slate-600 text-white text-sm">
-              {user?.name?.charAt(0).toUpperCase()}
+              {session?.user?.name?.charAt(0).toUpperCase()}
             </AvatarFallback>
           )}
         </Avatar>
 
         <div className="min-w-0">
-          <p className="text-sm font-semibold truncate">{user?.name}</p>
+          <p className="text-sm font-semibold truncate">
+            {session?.user?.name}
+          </p>
           <p className="text-xs text-muted-foreground truncate">
-            {user?.email}
+            {session?.user?.email}
           </p>
         </div>
       </div>

@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "instagram.fdel11-3.fna.fbcdn.net"],
   },
+  reactCompiler: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;
