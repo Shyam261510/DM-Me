@@ -1,101 +1,186 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Tag, FolderOpen, Zap, Cloud, Sparkles } from "lucide-react";
-
+import {
+  Search,
+  Tag,
+  FolderOpen,
+  Zap,
+  Cloud,
+  Sparkles,
+  BookText as Book,
+} from "lucide-react";
+import { Badge } from "../Bage";
 const FeaturesSection = () => {
   const features = [
     {
       icon: Search,
       title: "Smart Search",
-      description: "Find any reel instantly with powerful search. Search by tags, content, or keywords.",
+      description:
+        "Find any reel instantly with powerful search. Search by tags, content, or keywords.",
       color: "#6C5CE7",
+      grid: "",
     },
     {
       icon: Tag,
-      title: "Tag & Categorize",
-      description: "Organize your reels with custom tags. Create categories that make sense for you.",
+      title: "Auto Tagging",
+      description: "AI-powered automatic tagging to save you time.",
       color: "#FF4D8D",
+      grid: "row-span-2",
     },
     {
       icon: FolderOpen,
-      title: "Organized Reel Library",
-      description: "All your saved reels in one beautiful, organized library. Never lose content again.",
+      title: "Organized Library",
+      description: "All your saved reels in one beautiful, organized library.",
       color: "#FF8A00",
+      grid: "",
     },
     {
       icon: Zap,
       title: "Instant Access",
-      description: "Access your saved reels from anywhere, anytime. No more endless scrolling.",
+      description: "Access your saved reels from anywhere, anytime.",
       color: "#6C5CE7",
+      grid: "sm:row-span-2",
     },
     {
       icon: Cloud,
-      title: "Cloud Storage",
-      description: "Your reels are safely stored in the cloud. Access them from any device.",
-      color: "#FF4D8D",
+      title: "Cloud Sync",
+      description:
+        "Your reels are safely stored in the cloud. Access from any device.",
+      color: "#3B82F6",
+      grid: "",
     },
     {
-      icon: Sparkles,
-      title: "AI Auto Tagging",
-      description: "Coming soon: AI-powered automatic tagging to save you even more time.",
-      color: "#FF8A00",
-      comingSoon: true,
+      icon: Book,
+      title: "Script Generation",
+      description: "AI help's you in script generation.",
+      color: "#10B981",
+      grid: "sm:col-start-2 sm:col-span-2",
+      commingSoon: true,
     },
   ];
 
   return (
-    <section id="features" className="relative py-32 bg-[#111118]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="features"
+      className="relative py-20 md:py-28 bg-[#111118] overflow-hidden"
+    >
+      {/* Background glow */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-pink-500/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-14 md:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-white/10 mb-6">
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-sm font-medium text-purple-300">
+              Powerful Features
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Everything You Need to{" "}
-            <span className="bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#6C5CE7] via-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
               Organize
             </span>
           </h2>
-          <p className="text-xl text-[#A1A1AA] max-w-2xl mx-auto">
-            Powerful features designed for creators, managers, and anyone who saves reels
+
+          <p className="text-sm sm:text-base md:text-lg text-[#A1A1AA] max-w-2xl mx-auto">
+            Powerful features designed for creators and anyone who saves reels
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="p-8 rounded-2xl bg-[#16161F] border border-[#23232E] hover:border-opacity-50 transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6C5CE7]/10 group relative"
-              >
-                {feature.comingSoon && (
-                  <div className="absolute top-4 right-4 px-2 py-1 text-xs font-semibold text-[#FF8A00] bg-[#FF8A00]/10 rounded-full border border-[#FF8A00]/30">
-                    Coming Soon
-                  </div>
-                )}
-                <div
-                  className="p-4 rounded-xl bg-[#16161F] border mb-4 w-fit group-hover:border-opacity-50 transition-colors"
-                  style={{
-                    borderColor: `${feature.color}40`,
-                    backgroundColor: `${feature.color}10`,
+        {/* Bento Grid */}
+        <div className="flex justify-center  items-center">
+          <div className="grid w-[50rem] gap-5 grid-flow-row-dense auto-rows-min">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.05,
                   }}
+                  whileHover={{ scale: 1.02 }}
+                  className={`
+                  relative group rounded-2xl
+                  p-4 sm:p-5 md:p-6
+                  bg-gradient-to-br from-[#16161F] to-[#0F0F14]
+                  border border-white/10
+                  shadow-[0_8px_32px_rgba(0,0,0,0.3)]
+                  hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                  transition-all duration-300
+                  overflow-hidden
+                  min-h-[120px] sm:min-h-[140px]
+                  sm:flex sm:flex-col sm:justify-center sm:items-center 
+                  ${feature.grid}
+                 
+                `}
                 >
-                  <Icon className="w-6 h-6" style={{ color: feature.color }} />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-[#A1A1AA] leading-relaxed">{feature.description}</p>
-              </motion.div>
-            );
-          })}
+                  {/* Hover glow */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: `radial-gradient(circle at top right, ${feature.color}15, transparent 70%)`,
+                    }}
+                  />
+
+                  <div className="relative z-10">
+                    {/* Icon + Badge */}
+
+                    <div className="flex  items-center gap-3 mb-3 sm:justify-center">
+                      <div
+                        className="p-2.5 sm:p-3 rounded-xl backdrop-blur-sm"
+                        style={{
+                          background: `linear-gradient(135deg, ${feature.color}20, ${feature.color}05)`,
+                          border: `1px solid ${feature.color}30`,
+                        }}
+                      >
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
+                      </div>
+                      {feature.commingSoon && (
+                        <Badge className="text-xs text-[#FF8A00]">
+                          Comming soon
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-base sm:text-center sm:text-lg md:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      {feature.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-xs sm:text-center sm:text-sm text-[#A1A1AA] leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom hover line */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${feature.color}, transparent)`,
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -103,4 +188,3 @@ const FeaturesSection = () => {
 };
 
 export default FeaturesSection;
-

@@ -1,25 +1,21 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/libs/NextAuthProvider";
 import { ReduxProvider } from "@/libs/ReduxProvider";
 import { Toaster } from "@/components/ui/sonner";
 import TanstackProvider from "@/libs/TanstackProvider";
 
-const inter = Inter({
-  variable: "--font-geist-sans",
+const googlSans = Google_Sans({
+  variable: "--font-googl-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "JustDM – Save and Organize Instagram Reels Easily",
-  description: "JustDM helps you save Instagram reels via DM, organize them with tags, and find them instantly. No more endless scrolling through Instagram saves.",
+  description:
+    "JustDM helps you save Instagram reels via DM, organize them with tags, and find them instantly. No more endless scrolling through Instagram saves.",
   keywords: [
     "save instagram reels",
     "organize instagram reels",
@@ -40,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${geistMono.variable} antialiased`}
+        className={`${googlSans.className} antialiased`}
         style={{ scrollBehavior: "smooth" }}
       >
         <NextAuthProvider>

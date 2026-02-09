@@ -1,8 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Scroll, Tag, AlertCircle } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
+import { cn } from "@/lib/utils";
+import {
+  IconSearch,
+  IconSwipeDown,
+  IconTag,
+  IconAlertCircle,
+} from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IconProps } from "@tabler/icons-react";
+
 import Reel1 from "@/public/reels/reel1.png";
 import Reel2 from "@/public/reels/reel2.png";
 import Reel3 from "@/public/reels/reel3.png";
@@ -135,36 +144,32 @@ const FloatingReels = ({ images }: Props) => {
 const FrustrationSection = () => {
   const problems = [
     {
-      icon: Search,
+      Icon: IconSearch,
       emoji: "🔍",
       title: "No Search",
       description:
         "Can't find that reel you saved last week? Good luck scrolling through hundreds of saves.",
-      color: "#FF4D8D",
     },
     {
-      icon: Scroll,
+      Icon: IconSwipeDown,
       emoji: "📜",
       title: "Endless Scrolling",
       description:
         "Waste time digging through your saved folder instead of finding what you need instantly.",
-      color: "#FF8A00",
     },
     {
-      icon: Tag,
+      Icon: IconTag,
       emoji: "🏷️",
       title: "No Tagging",
       description:
         "No way to organize or categorize your saved content. Everything just piles up.",
-      color: "#6C5CE7",
     },
     {
-      icon: AlertCircle,
+      Icon: IconAlertCircle,
       emoji: "😵",
       title: "Content Gets Lost",
       description:
         "Important reels disappear in the chaos. Never find that inspiration again.",
-      color: "#FF4D8D",
     },
   ];
 
@@ -180,39 +185,66 @@ const FrustrationSection = () => {
         </p>
       </div>
 
-      {/* Cards Container */}
-      <div className="max-w-5xl mx-auto flex flex-col gap-20">
-        {problems.map((problem, index) => {
-          const isLeft = index % 2 === 0;
-
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: isLeft ? -100 : 100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              viewport={{ once: true }}
-              className={`flex ${isLeft ? "justify-start" : "justify-end"}`}
-            >
-              {/* Card */}
-              <div className="w-full max-w-md bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-lg">
-                {/* Big Emoji */}
-                <div className="text-6xl mb-4">{problem.emoji}</div>
-
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {problem.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-zinc-400 leading-relaxed">
-                  {problem.description}
-                </p>
-              </div>
-            </motion.div>
-          );
-        })}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {problems.map((item, index) => (
+          <Problem
+            key={index}
+            title={item.title}
+            description={item.description}
+            Icon={item.Icon}
+            index={index}
+          />
+        ))}
       </div>
     </section>
+  );
+};
+
+const Problem = ({
+  title,
+  description,
+  Icon,
+  index,
+}: {
+  title: string;
+  description: string;
+  Icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
+  index: number;
+}) => {
+  return (
+    <div
+      className={cn(
+        "group relative flex flex-col justify-between",
+        "p-8 rounded-2xl",
+        "bg-white/[0.03] dark:bg-white/[0.02]",
+        "border border-white/10",
+        "backdrop-blur-xl",
+        "transition-all duration-300",
+        "hover:-translate-y-1 hover:border-white/20 hover:shadow-xl",
+      )}
+    >
+      {/* Hover Glow */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+
+      {/* Top Accent Line */}
+      <div className="absolute top-0 left-0 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-all duration-500" />
+
+      {/* Icon */}
+      <div className="relative z-10 mb-6">
+        <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-neutral-300 group-hover:text-white transition">
+          <Icon className="w-6 h-6" />
+        </div>
+      </div>
+
+      {/* Title */}
+      <h3 className="relative z-10 text-lg font-semibold text-neutral-100 mb-2 group-hover:translate-x-1 transition duration-200">
+        {title}
+      </h3>
+
+      {/* Description */}
+      <p className="relative z-10 text-sm text-neutral-400 leading-relaxed">
+        {description}
+      </p>
+    </div>
   );
 };

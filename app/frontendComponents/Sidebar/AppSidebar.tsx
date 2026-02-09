@@ -1,6 +1,6 @@
 "use client";
-import { User, Video } from "lucide-react";
 
+import { User, Video } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +15,8 @@ import {
 import Profile from "../Profile/Profile";
 import NavbarLogo from "@/app/Logo/NavbarLogo";
 import Link from "next/link";
-// Menu items.
+import { usePathname } from "next/navigation";
+
 const items = [
   {
     title: "Accounts",
@@ -30,33 +31,59 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="bg-[#0B0B0F] border-r border-[#23232E]">
+      <SidebarContent className="bg-[#0B0B0F]">
         <SidebarGroup>
-          <SidebarGroupLabel className="mb-5">
+          {/* Logo */}
+          <SidebarGroupLabel className="px-4 py-4 mb-2">
             <NavbarLogo />
           </SidebarGroupLabel>
+
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className="hover:bg-blue-600 hover:text-zinc-100 duration-300"
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu className="px-2 space-y-1">
+              {items.map((item) => {
+                const isActive = pathname === item.url;
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url}
+                        className={`
+                          relative flex items-center gap-3
+                          px-4 py-2.5 rounded-lg
+                          text-sm font-medium
+                          transition-colors
+                          
+                          ${
+                            isActive
+                              ? "text-white bg-[#16161F]"
+                              : "text-[#A1A1AA] hover:text-black hover:bg-[#16161F]"
+                          }
+                        `}
+                      >
+                        {/* Active indicator */}
+                        {isActive && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r bg-white/80" />
+                        )}
+
+                        <item.icon className="w-4 h-4" />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+
+      {/* Footer */}
+      <SidebarFooter className="border-t border-[#23232E] bg-[#0B0B0F] p-3">
         <SidebarMenu>
           <SidebarMenuItem>
             <Profile />

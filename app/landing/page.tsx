@@ -3,7 +3,7 @@ import HeroSection from "./components/HeroSection";
 import ProblemSection from "./components/ProblemSection";
 import HowItWorksSection from "./components/HowItWorksSection";
 import FeaturesSection from "./components/FeaturesSection";
-import UseCasesSection from "./components/UseCasesSection";
+import { UseCasesSection } from "./components/UseCasesSection";
 import ProductDemoSection from "./components/ProductDemoSection";
 import SocialProofSection from "./components/SocialProofSection";
 import FinalCTASection from "./components/FinalCTASection";
@@ -25,4 +25,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

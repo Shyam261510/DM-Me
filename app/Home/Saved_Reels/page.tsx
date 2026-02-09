@@ -169,33 +169,58 @@ function SavedReels() {
   }
 
   return (
-    <div className="w-full bg-gray-50 h-screen overflow-y-scroll overflow-x-hidden">
+    <div className="w-full bg-[#0B0B0F] min-h-screen overflow-y-auto overflow-x-hidden text-white">
       {/* Filter Bar */}
-      <div className="sticky top-0 z-20 bg-white border-b">
-        <div className="mx-auto max-w-7xl px-4 py-3">
+      <div className="sticky top-0 z-20 bg-[#0B0B0F]/80 backdrop-blur-xl border-b border-[#23232E]">
+        <div className="mx-auto max-w-7xl px-6 py-4">
           <div className="flex flex-wrap gap-3 items-center">
             {/* Search */}
             <input
               type="text"
               placeholder="Search reels..."
-              className="h-9 w-full sm:w-64 rounded-md border px-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+              className="
+            h-10 w-full sm:w-72
+            rounded-xl
+            border border-[#23232E]
+            bg-[#16161F]
+            px-4 text-sm text-white
+            placeholder:text-[#71717A]
+            outline-none
+            focus:border-[#6C5CE7]
+            focus:ring-2 focus:ring-[#6C5CE7]/30
+            transition-all
+          "
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
 
-            {/* Niche Filter */}
+            {/* Tag Filter */}
             <Select
               defaultValue={filter.tag as string}
               value={filter.tag}
               onValueChange={(value) => tagsHandler(value)}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger
+                className="
+              w-[200px]
+              bg-[#16161F]
+              border-[#23232E]
+              text-white
+              rounded-xl
+              focus:ring-2 focus:ring-[#6C5CE7]/30
+            "
+              >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+
+              <SelectContent className="bg-[#16161F] border border-[#23232E] text-white">
                 <SelectGroup>
                   {[{ tag: "All", embedding: [0] }, ...tags].map((t, index) => (
-                    <SelectItem key={index} value={t.tag}>
+                    <SelectItem
+                      key={index}
+                      value={t.tag}
+                      className="focus:bg-[#6C5CE7]/20 focus:text-white"
+                    >
                       {t.tag}
                     </SelectItem>
                   ))}
@@ -203,9 +228,14 @@ function SavedReels() {
               </SelectContent>
             </Select>
 
-            {/* Clear */}
+            {/* Clear Filters */}
             <button
-              className="ml-auto text-sm text-zinc-500 hover:text-zinc-900"
+              className="
+            ml-auto text-sm
+            text-[#A1A1AA]
+            hover:text-white
+            transition-colors
+          "
               onClick={clearHandler}
             >
               Clear filters
@@ -215,7 +245,7 @@ function SavedReels() {
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-6 py-10">
         <Reels reels={filteredVideos.results} />
       </div>
     </div>

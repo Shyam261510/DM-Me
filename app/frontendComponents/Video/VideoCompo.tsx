@@ -8,11 +8,7 @@ interface VideoComponentProps {
   thumbnail?: string;
 }
 
-export const VideoComponent = ({
-
-  url,
-  thumbnail,
-}: VideoComponentProps) => {
+export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -25,7 +21,7 @@ export const VideoComponent = ({
           observer.disconnect();
         }
       },
-      { rootMargin: "200px" }, // preload slightly before visible
+      { rootMargin: "200px" },
     );
 
     if (ref.current) observer.observe(ref.current);
@@ -39,14 +35,23 @@ export const VideoComponent = ({
   return (
     <div
       ref={ref}
-      className="group relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-black"
+      className="
+        group relative w-full aspect-[9/16]
+        overflow-hidden rounded-xl
+        bg-[#0B0B0F]
+        border border-[#23232E]
+        transition-all duration-300
+        hover:border-[#6C5CE7]/40
+      "
     >
+      {/* Skeleton before visible */}
       {!visible && <VideoSkeleton />}
 
       {visible && (
         <>
           {!loaded && <VideoSkeleton />}
 
+          {/* Video */}
           <Video
             urlEndpoint={url}
             src={url}
@@ -54,15 +59,42 @@ export const VideoComponent = ({
             preload="metadata"
             poster={poster}
             onLoadedData={() => setLoaded(true)}
-            className={`h-full w-full object-cover transition-opacity ${
+            className={`h-full w-full object-cover transition-opacity duration-500 ${
               loaded ? "opacity-100" : "opacity-0"
             }`}
           />
 
-          {/* Hover Play */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/60 backdrop-blur">
-              <Play size={20} className="text-white ml-0.5" />
+          {/* Hover Overlay Gradient */}
+          <div
+            className="
+            pointer-events-none absolute inset-0
+            opacity-0 group-hover:opacity-100
+            transition
+            bg-gradient-to-t from-black/60 via-black/20 to-transparent
+          "
+          />
+
+          {/* Play Button */}
+          <div
+            className="
+            pointer-events-none absolute inset-0
+            flex items-center justify-center
+            opacity-0 group-hover:opacity-100
+            transition-all duration-300
+            group-hover:scale-100 scale-90
+          "
+          >
+            <div
+              className="
+              flex h-14 w-14 items-center justify-center
+              rounded-full
+              bg-[#16161F]/80
+              border border-[#23232E]
+              backdrop-blur
+              shadow-[0_0_30px_rgba(108,92,231,0.25)]
+            "
+            >
+              <Play size={22} className="text-white ml-0.5" />
             </div>
           </div>
         </>

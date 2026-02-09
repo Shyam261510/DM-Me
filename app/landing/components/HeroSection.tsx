@@ -2,6 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Search, Tag, Send } from "lucide-react";
+import ShootingStars from "../ShootingStars";
 
 const HeroSection = () => {
   const containerVariants = {
@@ -30,6 +31,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Animated Background Gradients */}
       <div className="absolute inset-0 overflow-hidden">
+        <ShootingStars />
         <motion.div
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6C5CE7] rounded-full blur-[120px] opacity-20"
           animate={{

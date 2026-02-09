@@ -9,6 +9,11 @@ import Reel3 from "@/public/reels/reel3.png";
 
 const ProductDemoSection = () => {
   const Reels = [Reel1, Reel2, Reel3];
+  const Tags = [
+    { niche: "Fitness", subNiche: "Bench Press" },
+    { niche: "Tech", subNiche: "Interview Prep" },
+    { niche: "Book Reading", subNiche: "Self-Motivation" },
+  ];
   return (
     <section id="demo" className="relative py-32 bg-[#111118]">
       <div className="max-w-7xl mx-auto px-6">
@@ -118,7 +123,7 @@ const ProductDemoSection = () => {
 
           {/* Dashboard Images Grid - Placeholder for 3 images */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[1, 2, 3].map((index) => (
+            {Tags.map((tag, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -143,10 +148,10 @@ const ProductDemoSection = () => {
                     </div>
                     <div className="mt-4 flex gap-2">
                       <div className="px-3 py-1 rounded-full bg-[#6C5CE7]/20 border border-[#6C5CE7]/30 text-xs text-[#6C5CE7]">
-                        Fitness
+                        {tag.niche}
                       </div>
                       <div className="px-3 py-1 rounded-full bg-[#FF4D8D]/20 border border-[#FF4D8D]/30 text-xs text-[#FF4D8D]">
-                        Tech
+                        {tag.subNiche}
                       </div>
                     </div>
                   </div>
