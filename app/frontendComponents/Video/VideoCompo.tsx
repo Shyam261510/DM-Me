@@ -89,9 +89,7 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
             ref={videoRef}
             urlEndpoint={url}
             src={url}
-            controls={false} // ❗ always false
-            playsInline
-            disablePictureInPicture
+            controls={true} // ❗ always false
             controlsList="nodownload nofullscreen noremoteplayback"
             preload="metadata"
             poster={poster}
