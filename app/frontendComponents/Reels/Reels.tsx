@@ -32,10 +32,11 @@ function Reels({ reels }: ReelsProps) {
 
       {/* Reels Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {reels.map((r) => (
-          <div
-            key={r.id}
-            className="
+        {reels.map((r, index) => (
+          <div key={index}>
+            <div
+              key={r.id}
+              className="
               group rounded-2xl
               border border-[#23232E]
               bg-[#16161F]
@@ -45,51 +46,53 @@ function Reels({ reels }: ReelsProps) {
               hover:border-[#6C5CE7]/40
               hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
             "
-          >
-            {/* Video */}
-            <div className="relative">
-              <VideoComponent url={r.reel.url} thumbnail={r.reel.thumbnail} />
+            >
+              {/* Video */}
+              <div className="relative">
+                <VideoComponent url={r.reel.url} thumbnail={r.reel.thumbnail} />
 
-              {/* Hover Glow Overlay */}
-              <div
-                className="
+                {/* Hover Glow Overlay */}
+                <div
+                  className="
                 absolute inset-0 opacity-0 group-hover:opacity-100
                 transition
                 bg-gradient-to-t from-black/40 to-transparent
+                pointer-events-none z-0
               "
-              />
-            </div>
+                />
+              </div>
 
-            {/* Content */}
-            <div className="p-4">
-              {/* Title */}
-              <h2 className="text-sm font-medium text-white line-clamp-2">
-                {r.reel.title}
-              </h2>
+              {/* Content */}
+              <div className="p-4">
+                {/* Title */}
+                <h2 className="text-sm font-medium text-white line-clamp-2">
+                  {r.reel.title}
+                </h2>
 
-              {/* Tags */}
-              <div className="mt-3 flex flex-wrap gap-2">
-                <span
-                  className="
+                {/* Tags */}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span
+                    className="
                     text-xs px-2.5 py-1 rounded-full
                     bg-[#6C5CE7]/15
                     text-[#6C5CE7]
                     border border-[#6C5CE7]/30
                   "
-                >
-                  {r.reel.niche}
-                </span>
+                  >
+                    {r.reel.niche}
+                  </span>
 
-                <span
-                  className="
+                  <span
+                    className="
                     text-xs px-2.5 py-1 rounded-full
                     bg-[#FF4D8D]/15
                     text-[#FF4D8D]
                     border border-[#FF4D8D]/30
                   "
-                >
-                  {r.reel.subNiche}
-                </span>
+                  >
+                    {r.reel.subNiche}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

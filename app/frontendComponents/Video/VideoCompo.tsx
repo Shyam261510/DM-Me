@@ -9,10 +9,14 @@ interface VideoComponentProps {
 }
 
 export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<any>(null);
+
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
+  // Lazy load when in viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -24,9 +28,38 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
       { rootMargin: "200px" },
     );
 
-    if (ref.current) observer.observe(ref.current);
+    if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  // Pause when out of view (nice UX)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && videoRef.current) {
+          videoRef.current.pause();
+          setPlaying(false);
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const handlePlayClick = () => {
+    if (!videoRef.current) return;
+    console.log("Play start");
+
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setPlaying(false);
+    }
+  };
 
   const poster = thumbnail
     ? buildSrc({ urlEndpoint: thumbnail, src: thumbnail })
@@ -34,7 +67,7 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
 
   return (
     <div
-      ref={ref}
+      ref={containerRef}
       className="
         group relative w-full aspect-[9/16]
         overflow-hidden rounded-xl
@@ -53,50 +86,71 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
 
           {/* Video */}
           <Video
+            ref={videoRef}
             urlEndpoint={url}
             src={url}
-            controls
+            controls={false} // ❗ always false
+            playsInline
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
             preload="metadata"
             poster={poster}
             onLoadedData={() => setLoaded(true)}
             className={`h-full w-full object-cover transition-opacity duration-500 ${
               loaded ? "opacity-100" : "opacity-0"
             }`}
+            onClick={(e: React.MouseEvent<HTMLVideoElement>) => {
+              e.stopPropagation();
+              const video = videoRef.current;
+              if (!video) return;
+
+              if (video.paused) {
+                video.play();
+                setPlaying(true);
+              } else {
+                video.pause();
+                setPlaying(false);
+              }
+            }}
           />
 
-          {/* Hover Overlay Gradient */}
+          {/* Hover Gradient */}
           <div
             className="
-            pointer-events-none absolute inset-0
-            opacity-0 group-hover:opacity-100
-            transition
-            bg-gradient-to-t from-black/60 via-black/20 to-transparent
-          "
+              pointer-events-none absolute inset-0
+              opacity-0 group-hover:opacity-100
+              transition
+              bg-gradient-to-t from-black/60 via-black/20 to-transparent
+            "
           />
 
           {/* Play Button */}
-          <div
-            className="
-            pointer-events-none absolute inset-0
-            flex items-center justify-center
-            opacity-0 group-hover:opacity-100
-            transition-all duration-300
-            group-hover:scale-100 scale-90
-          "
-          >
+          {!playing && (
             <div
+              onClick={handlePlayClick}
               className="
-              flex h-14 w-14 items-center justify-center
-              rounded-full
-              bg-[#16161F]/80
-              border border-[#23232E]
-              backdrop-blur
-              shadow-[0_0_30px_rgba(108,92,231,0.25)]
-            "
+                absolute inset-0
+                flex items-center justify-center
+                opacity-0 group-hover:opacity-100
+                transition-all duration-300
+                group-hover:scale-100 scale-90
+                cursor-pointer
+              "
             >
-              <Play size={22} className="text-white ml-0.5" />
+              <div
+                className="
+                  flex h-14 w-14 items-center justify-center
+                  rounded-full
+                  bg-[#16161F]/80
+                  border border-[#23232E]
+                  backdrop-blur
+                  shadow-[0_0_30px_rgba(108,92,231,0.25)]
+                "
+              >
+                <Play size={22} className="text-white ml-0.5" />
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
     </div>
