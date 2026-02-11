@@ -2,21 +2,15 @@ import Image from "next/image";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { resetState } from "@/libs/dataslice";
+import { useSignOut } from "@/hooks/useSignOut";
+
 import { useSession } from "next-auth/react";
 function Profile() {
   const { data: session, status } = useSession();
-  const navigate = useRouter();
-  const dispatch = useDispatch();
 
-  async function handelSignOut() {
-    await signOut({ redirect: false }); // Prevent automatic redirect
-    dispatch(resetState());
-    navigate.push("/");
-  }
+  const dispatch = useDispatch();
+  const handelSignOut = useSignOut();
 
   return (
     <div className="flex items-center justify-between gap-3 px-3 py-3 border-t">
