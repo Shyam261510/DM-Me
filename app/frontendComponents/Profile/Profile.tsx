@@ -12,8 +12,8 @@ function Profile() {
   const navigate = useRouter();
   const dispatch = useDispatch();
 
-  function handelSignOut() {
-    signOut();
+  async function handelSignOut() {
+    await signOut({ redirect: false }); // Prevent automatic redirect
     dispatch(resetState());
     navigate.push("/");
   }
