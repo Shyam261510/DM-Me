@@ -1,19 +1,17 @@
 "use client";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 import { resetState } from "@/libs/dataslice";
 import { useDispatch } from "react-redux";
 
 export function useSignOut() {
-  const router = useRouter();
   const dispatch = useDispatch();
 
   async function signOutHandler() {
-    await signOut({ redirect: false }); // Prevent automatic redirect
+    await signOut({ callbackUrl: "/" });
 
-    // while signing out, clearing all the redux state
+    // Clear redux state
     dispatch(resetState());
-    router.push("/"); // Manual redirect after sign out
   }
 
   return signOutHandler;
