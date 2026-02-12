@@ -10,6 +10,7 @@ function Profile() {
   const { data: session, status } = useSession();
 
   const dispatch = useDispatch();
+
   const handelSignOut = useSignOut();
 
   return (
