@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import { withNextVideo } from "next-video/process";
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
@@ -7,4 +8,4 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 };
 
-export default nextConfig;
+export default withNextVideo(nextConfig);

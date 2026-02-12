@@ -8,12 +8,14 @@ import ProductDemoSection from "./components/ProductDemoSection";
 import SocialProofSection from "./components/SocialProofSection";
 import FinalCTASection from "./components/FinalCTASection";
 import Footer from "./components/Footer";
+import SetupVideoSection from "./components/SetupVideoSection";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-white">
       <LandingNavbar />
       <HeroSection />
+      <SetupVideoSection />
       <ProblemSection />
       <HowItWorksSection />
       <FeaturesSection />
