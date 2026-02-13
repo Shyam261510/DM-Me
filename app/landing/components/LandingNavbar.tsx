@@ -1,12 +1,9 @@
 "use client";
-
 import NavbarLogo from "@/app/Logo/NavbarLogo";
-import { signIn } from "next-auth/react";
+import useSignIn from "@/hooks/useSignIn";
 
 const LandingNavbar = () => {
-  const handleSignIn = () => {
-    signIn("google");
-  };
+  const handleSignIn = useSignIn();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-[#23232E] bg-[#0B0B0F]/50 backdrop-blur-xl">

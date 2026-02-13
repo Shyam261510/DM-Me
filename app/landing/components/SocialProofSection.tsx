@@ -50,11 +50,15 @@ const SocialProofSection = () => {
             </span>
           </h2>
           <p className="text-xl text-[#A1A1AA] max-w-2xl mx-auto mb-8">
-            Join hundreds of creators, managers, and learners who use JustDM daily
+            Join hundreds of creators, managers, and learners who use JustDM
+            daily
           </p>
 
           {/* Animated Counter */}
-          <div ref={ref} className="flex items-center justify-center gap-2 mb-12">
+          <div
+            ref={ref}
+            className="flex items-center justify-center gap-2 mb-12"
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -80,12 +84,17 @@ const SocialProofSection = () => {
               {/* Rating */}
               <div className="flex gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#FF8A00] text-[#FF8A00]" />
+                  <Star
+                    key={i}
+                    className="w-4 h-4 fill-[#FF8A00] text-[#FF8A00]"
+                  />
                 ))}
               </div>
 
               {/* Testimonial Text */}
-              <p className="text-[#A1A1AA] mb-6 leading-relaxed">"{testimonial.text}"</p>
+              <p className="text-[#A1A1AA] mb-6 leading-relaxed">
+                "{testimonial.text}"
+              </p>
 
               {/* Author */}
               <div className="flex items-center gap-3">
@@ -93,8 +102,12 @@ const SocialProofSection = () => {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <div className="text-white font-semibold">{testimonial.name}</div>
-                  <div className="text-sm text-[#A1A1AA]">{testimonial.role}</div>
+                  <div className="text-white font-semibold">
+                    {testimonial.name}
+                  </div>
+                  <div className="text-sm text-[#A1A1AA]">
+                    {testimonial.role}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -106,4 +119,3 @@ const SocialProofSection = () => {
 };
 
 export default SocialProofSection;
-

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = ["/"];
+const PUBLIC_ROUTES = ["/", "/privacy-policy", "/terms-and-conditions"];
 
 // check exact frontend public paths
 function isPublicRoute(pathname: string): boolean {

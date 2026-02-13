@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { Send, Search, Tag } from "lucide-react";
 import Image from "next/image";
-import Reel1 from "@/public/reels/reel1.png";
-import Reel2 from "@/public/reels/reel2.png";
-import Reel3 from "@/public/reels/reel3.png";
+import Reel1 from "@/public/reels/reel1.webp";
+import Reel2 from "@/public/reels/reel2.webp";
+import Reel3 from "@/public/reels/reel3.webp";
 
 const ProductDemoSection = () => {
   const Reels = [Reel1, Reel2, Reel3];

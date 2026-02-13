@@ -154,7 +154,7 @@ const FeaturesSection = () => {
                       </div>
                       {feature.commingSoon && (
                         <Badge className="text-xs text-[#FF8A00]">
-                          Comming soon
+                          Coming soon
                         </Badge>
                       )}
                     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import { cn } from "@/lib/utils";
 import {
@@ -9,32 +9,33 @@ import {
   IconTag,
   IconAlertCircle,
 } from "@tabler/icons-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { ForwardRefExoticComponent, RefAttributes, useMemo } from "react";
 import { IconProps } from "@tabler/icons-react";
 
-import Reel1 from "@/public/reels/reel1.png";
-import Reel2 from "@/public/reels/reel2.png";
-import Reel3 from "@/public/reels/reel3.png";
-import Reel4 from "@/public/reels/reel4.png";
-import Reel5 from "@/public/reels/reel5.png";
-import Reel6 from "@/public/reels/reel6.png";
-import Reel7 from "@/public/reels/reel7.png";
-import Reel8 from "@/public/reels/reel8.png";
-import Reel9 from "@/public/reels/reel9.png";
-import Reel10 from "@/public/reels/reel10.png";
-import Reel11 from "@/public/reels/reel11.png";
-import Reel12 from "@/public/reels/reel12.png";
-import Reel13 from "@/public/reels/reel13.png";
-import Reel14 from "@/public/reels/reel14.png";
-
-const random = (min: number, max: number) => Math.random() * (max - min) + min;
+// Import only 6–8 images (important for performance)
+import Reel1 from "@/public/reels/reel1.webp";
+import Reel2 from "@/public/reels/reel2.webp";
+import Reel3 from "@/public/reels/reel3.webp";
+import Reel4 from "@/public/reels/reel4.webp";
+import Reel5 from "@/public/reels/reel5.webp";
+import Reel6 from "@/public/reels/reel6.webp";
+import Reel7 from "@/public/reels/reel7.webp";
+import Reel8 from "@/public/reels/reel8.webp";
+import Reel9 from "@/public/reels/reel9.webp";
+import Reel10 from "@/public/reels/reel10.webp";
+import Reel11 from "@/public/reels/reel11.webp";
+import Reel12 from "@/public/reels/reel12.webp";
+import Reel13 from "@/public/reels/reel13.webp";
+import Reel14 from "@/public/reels/reel14.webp";
 
 type Props = {
   images: StaticImageData[];
 };
 
+const random = (min: number, max: number) => Math.random() * (max - min) + min;
+
 const ProblemSection = () => {
-  const Reels = [
+  const reels = [
     Reel1,
     Reel2,
     Reel3,
@@ -52,89 +53,87 @@ const ProblemSection = () => {
   ];
 
   return (
-    <section id="problem">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Instagram Saves Are a{" "}
-            <span className="bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
-              Mess
-            </span>
-          </h2>
-        </motion.div>
-      </div>
-      <div className="flex flex-col gap-32 ">
-        <FloatingReels images={Reels} />
-        <FrustrationSection />
-      </div>
-    </section>
+    <LazyMotion features={domAnimation}>
+      <section id="problem" className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Heading */}
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Instagram Saves Are a{" "}
+              <span className="bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
+                Mess
+              </span>
+            </h2>
+          </m.div>
+        </div>
+
+        <div className="flex flex-col gap-24">
+          <FloatingReels images={reels} />
+          <FrustrationSection />
+        </div>
+      </section>
+    </LazyMotion>
   );
 };
 
 export default ProblemSection;
 
 const FloatingReels = ({ images }: Props) => {
-  return (
-    <div className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] xl:h-[900px] overflow-hidden">
-      {images.map((img, index) => {
-        const xStart = random(-100, 100);
-        const yStart = random(-50, 50);
+  const positions = useMemo(
+    () =>
+      images.map(() => ({
+        top: `${random(0, 70)}%`,
+        left: `${random(0, 80)}%`,
+        x: random(-80, 80),
+        y: random(-40, 40),
+        rotate: random(-6, 6),
+      })),
+    [images],
+  );
 
-        const xMove = random(30, 120);
-        const yMove = random(20, 80);
-        const duration = random(8, 16);
+  return (
+    <div className="relative w-full h-[600px] overflow-hidden">
+      {images.map((img, index) => {
+        const pos = positions[index];
 
         return (
-          <motion.div
+          <m.div
             key={index}
-            className="
-              absolute 
-              w-32 h-50         /* mobile */
-
-              md:w-36 md:h-64     /* tablets */
-              lg:w-44 lg:h-80     /* desktop */
-              xl:w-52 xl:h-96     /* large desktop */
-              2xl:w-60 2xl:h-[420px] /* ultra wide */
-              rounded-xl overflow-hidden shadow-xl
-            "
-            style={{
-              top: `${random(0, 70)}%`,
-              left: `${random(0, 80)}%`,
+            className="absolute w-36 h-64 rounded-xl overflow-hidden shadow-xl"
+            style={{ top: pos.top, left: pos.left }}
+            initial={{
+              opacity: 0,
+              x: pos.x,
+              y: pos.y,
+              rotate: pos.rotate,
             }}
-            initial={{ x: xStart, y: yStart, rotate: random(-6, 6) }}
-            animate={{
-              x: [xStart, xStart + xMove, xStart - xMove, xStart],
-              y: [yStart, yStart - yMove, yStart + yMove, yStart],
-              rotate: [random(-6, 6), random(6, -6), random(-4, 4)],
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              y: 0,
+              rotate: 0,
             }}
+            viewport={{ once: true }}
             transition={{
-              duration,
-              repeat: Infinity,
-              ease: "easeInOut",
+              duration: 0.8,
+              delay: index * 0.08,
+              ease: "easeOut",
             }}
           >
-            <div className="relative w-full h-full">
-              <Image
-                src={img}
-                alt={`reel-${index}`}
-                fill
-                className="object-cover"
-                sizes="
-                  (max-width: 640px) 80px,
-                  (max-width: 768px) 112px,
-                  (max-width: 1024px) 144px,
-                  (max-width: 1280px) 176px,
-                  240px
-                "
-              />
-            </div>
-          </motion.div>
+            <Image
+              src={img}
+              alt={`reel-${index}`}
+              className="object-cover"
+              loading="lazy"
+              sizes="200px"
+            />
+          </m.div>
         );
       })}
     </div>
@@ -145,28 +144,24 @@ const FrustrationSection = () => {
   const problems = [
     {
       Icon: IconSearch,
-      emoji: "🔍",
       title: "No Search",
       description:
         "Can't find that reel you saved last week? Good luck scrolling through hundreds of saves.",
     },
     {
       Icon: IconSwipeDown,
-      emoji: "📜",
       title: "Endless Scrolling",
       description:
         "Waste time digging through your saved folder instead of finding what you need instantly.",
     },
     {
       Icon: IconTag,
-      emoji: "🏷️",
       title: "No Tagging",
       description:
         "No way to organize or categorize your saved content. Everything just piles up.",
     },
     {
       Icon: IconAlertCircle,
-      emoji: "😵",
       title: "Content Gets Lost",
       description:
         "Important reels disappear in the chaos. Never find that inspiration again.",
@@ -174,8 +169,7 @@ const FrustrationSection = () => {
   ];
 
   return (
-    <section className="relative py-24 px-6 overflow-hidden">
-      {/* Heading */}
+    <div className="relative py-20 px-6">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white mb-4">
           Saving Reels is Broken
@@ -196,7 +190,7 @@ const FrustrationSection = () => {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

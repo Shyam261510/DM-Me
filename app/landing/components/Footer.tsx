@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Send, Instagram } from "lucide-react";
 const Footer = () => {
@@ -12,9 +10,11 @@ const Footer = () => {
     ],
 
     Legal: [
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Terms of Service", href: "/terms" },
-      { name: "Cookie Policy", href: "/cookies" },
+      { name: "Privacy Policy", href: "/privacy-policy" },
+      {
+        name: "Terms of Service",
+        href: "/terms-and-conditions",
+      },
     ],
   };
 
@@ -39,7 +39,9 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="#"
+                href="https://www.instagram.com/justdmhub/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
                 aria-label="Instagram"
               >
@@ -75,19 +77,20 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-6 text-sm text-[#A1A1AA]">
             <Link
-              href="/privacy"
+              href="/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-white transition-colors"
             >
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
-              Terms
-            </Link>
             <Link
-              href="/cookies"
+              href="/terms-and-conditions"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-white transition-colors"
             >
-              Cookies
+              Terms
             </Link>
           </div>
         </div>

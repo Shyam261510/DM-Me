@@ -1,13 +1,11 @@
 "use client";
 
+import useSignIn from "@/hooks/useSignIn";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
-import { signIn } from "next-auth/react";
 
 const FinalCTASection = () => {
-  const handleSignIn = () => {
-    signIn("google");
-  };
+  const handleSignIn = useSignIn();
 
   const benefits = [
     "Easy to use",
