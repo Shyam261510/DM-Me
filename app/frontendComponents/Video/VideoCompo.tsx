@@ -50,7 +50,6 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
 
   const handlePlayClick = () => {
     if (!videoRef.current) return;
-    console.log("Play start");
 
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -89,8 +88,8 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
             ref={videoRef}
             urlEndpoint={url}
             src={url}
-            controls={true} // ❗ always false
-            controlsList="nodownload nofullscreen noremoteplayback"
+            controls={playing}
+            controlsList="nofullscreen"
             preload="metadata"
             poster={poster}
             onLoadedData={() => setLoaded(true)}
