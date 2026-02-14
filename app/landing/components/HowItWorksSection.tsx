@@ -24,7 +24,7 @@ const stepsData = [
   {
     id: 3,
     icon: Tag,
-    title: "Add tags and search anytime",
+    title: "Auto tagged and search anytime",
     description:
       "Organize with custom tags and find any reel in seconds with powerful search.",
     color: "#FF8A00",
