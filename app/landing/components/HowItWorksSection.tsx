@@ -79,6 +79,7 @@ const HowItWorksSection = () => {
       <section
         ref={sectionRef}
         className="relative py-32 bg-[#0B0B0F] overflow-hidden"
+        id="how-it-works"
       >
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <m.h2
