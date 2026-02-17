@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "content organizer instagram",
     "tools for content creators instagram",
   ],
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
