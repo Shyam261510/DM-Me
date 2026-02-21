@@ -2,12 +2,16 @@ import { VideoComponent } from "../Video/VideoCompo";
 import { Reel } from "@/interface";
 
 interface ReelsProps {
-  reels: Reel[];
+  reelsInfo: ReelsTypes[];
+}
+export interface ReelsTypes {
+  user?: { username: string };
+  reel: Reel;
 }
 
-function Reels({ reels }: ReelsProps) {
+function Reels({ reelsInfo }: ReelsProps) {
   // Empty State
-  if (!reels.length) {
+  if (!reelsInfo.length) {
     return (
       <div className="flex h-[60vh] items-center justify-center text-center text-white">
         <div className="space-y-3">
@@ -32,10 +36,10 @@ function Reels({ reels }: ReelsProps) {
 
       {/* Reels Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {reels.map((r, index) => (
+        {reelsInfo.map((r, index) => (
           <div key={index}>
             <div
-              key={r.id}
+              key={r.reel.id}
               className="
               group rounded-2xl
               border border-[#23232E]
@@ -50,6 +54,16 @@ function Reels({ reels }: ReelsProps) {
               {/* Video */}
               <div className="relative">
                 <VideoComponent url={r.reel.url} thumbnail={r.reel.thumbnail} />
+                {r.user?.username && (
+                  <h2
+                    className="absolute animate-bounce top-3 right-2 text-xs px-2.5 py-1 rounded-full
+                    bg-[#6C5CE7]/15
+                    text-zinc-200
+                    border border-[#6C5CE7]/30"
+                  >
+                    {r.user?.username}
+                  </h2>
+                )}
 
                 {/* Hover Glow Overlay */}
                 <div

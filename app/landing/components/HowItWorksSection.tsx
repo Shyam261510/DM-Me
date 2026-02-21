@@ -6,20 +6,20 @@ import { useEffect, useRef, useState } from "react";
 
 const stepsData = [
   {
-    id: 2,
-    icon: Save,
-    title: "Automatically saved to your library",
-    description:
-      "The reel is instantly saved to your organized library. No manual work needed.",
-    color: "#FF4D8D",
-  },
-  {
     id: 1,
     icon: Send,
     title: "Send reel via Instagram DM",
     description:
       "Simply share any Instagram reel to your JustDM account via direct message.",
     color: "#6C5CE7",
+  },
+  {
+    id: 2,
+    icon: Save,
+    title: "Automatically saved to your library",
+    description:
+      "The reel is instantly saved to your organized library. No manual work needed.",
+    color: "#FF4D8D",
   },
   {
     id: 3,
@@ -38,7 +38,11 @@ const positions = [
 ];
 
 const HowItWorksSection = () => {
-  const [steps, setSteps] = useState(stepsData);
+  const [steps, setSteps] = useState([
+    stepsData[2],
+    stepsData[0],
+    stepsData[1],
+  ]);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 

@@ -6,7 +6,7 @@ import { useUserData } from "@/hooks/useUserData";
 import Loader from "../frontendComponents/Loader/Loader";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { isLoading } = useUserData();
+  const { isLoading, user } = useUserData();
 
   // Loading Screen
   if (isLoading) {
@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-[#0B0B0F] text-white">
         {/* Sidebar */}
-        <AppSidebar />
+        <AppSidebar reciverId={user?.reciverId} />
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">

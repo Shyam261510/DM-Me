@@ -29,9 +29,9 @@ function DialogCompo({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className={`w-full rounded-xl ${className ?? ""}`}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 font-gilSemiBold">
+          <DialogTitle className="flex items-center gap-3 font-gilSemiBold text-zinc-200">
             {icon}
-            <span className="text-2xl">{title}</span>
+            <span className="text-2xl text-zinc-200">{title}</span>
           </DialogTitle>
           <DialogDescription className="font-gilRegular">
             {discription}

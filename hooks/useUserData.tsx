@@ -3,14 +3,20 @@
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
-import { getUserInfo } from "@/helper/getUserInfo";
 import { setUser } from "@/libs/dataslice";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import axios from "axios";
+import { User } from "@/interface";
+interface UserResponseType {
+  success: boolean;
+  user?: User;
+  message?: string;
+}
 
 export const useUserData = () => {
   const { data: session, status } = useSession();
+  const [userInfo, setUserInfo] = useState<User>({} as User);
   const dispatch = useDispatch();
 
   const userQuery = useQuery({
@@ -21,26 +27,25 @@ export const useUserData = () => {
       const res = await axios.get(
         `/api/auth/getUserInfo?userId=${session?.user?.id}`,
       );
-      return res.data;
+      return res.data as UserResponseType;
     },
   });
 
-  // ✅ handle success
   useEffect(() => {
-    if (userQuery.data?.success) {
-      dispatch(setUser(userQuery.data.user));
-    }
-  }, [userQuery.data?.success]);
+    // ✅ handle error
 
-  // ✅ handle error
-  useEffect(() => {
-    if (userQuery.data && !userQuery.data.success) {
-      ErrorToast(userQuery.data.message);
+    if (userQuery.data && !userQuery.data?.success) {
+      ErrorToast(userQuery.data?.message as string);
+      return;
     }
+    // ✅ handle success
+
+    dispatch(setUser(userQuery.data?.user as User));
+    setUserInfo(userQuery.data?.user as User);
   }, [userQuery.data?.success]);
 
   return {
-    user: session?.user,
+    user: userInfo,
     status,
     isLoading: userQuery.isLoading,
   };

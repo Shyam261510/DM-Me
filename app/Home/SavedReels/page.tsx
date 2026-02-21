@@ -1,7 +1,7 @@
 "use client";
-import { RootState } from "@/libs/Store";
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+
+import { useEffect, useMemo, useState } from "react";
+
 import {
   Select,
   SelectContent,
@@ -16,49 +16,34 @@ import axios from "axios";
 import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
 import { ReelsSkeleton } from "@/app/frontendComponents/Reels/ReelsSkeleton";
 import dynamic from "next/dynamic";
+import useReels from "@/hooks/useReels";
+import { Reel } from "@/interface";
+import { ReelsTypes } from "@/app/frontendComponents/Reels/Reels";
 
 const Reels = dynamic(() => import("@/app/frontendComponents/Reels/Reels"), {
   loading: () => <ReelsSkeleton />,
-  ssr: false, // IMPORTANT for video-heavy components
+  ssr: false,
 });
 
 function SavedReels() {
-  const userinfo = useSelector((state: RootState) => state.dataSlice.user);
+  const { isLoading, reels } = useReels();
+
   const [input, setInput] = useState<string>("");
   const [searchEmbedding, setSearchEmbedding] = useState<number[] | null>(null);
-
-  const debounceQuery = useDebounce({ query: input, delay: 1000 });
 
   const [filter, setFilter] = useState<{ tag: string; embedding: number[] }>({
     tag: "All",
     embedding: [0],
   });
+  const [userReels, setUserReels] = useState<ReelsTypes[]>([] as ReelsTypes[]);
 
-  const tags = useMemo(() => {
-    const reels = userinfo.reels;
-    let tagMap = new Map();
-    let filters = [] as { tag: string; embedding: number[] }[];
+  const debounceQuery = useDebounce({ query: input, delay: 1000 });
 
-    reels.forEach((r) => {
-      if (tagMap.has(r.reel.niche)) {
-        return;
-      }
-      if (tagMap.has(r.reel.niche)) {
-        return;
-      }
-      tagMap.set(r.reel.niche, true);
-      tagMap.set(r.reel.subNiche, true);
-      filters.push({
-        tag: r.reel.niche as string,
-        embedding: r.reel.nicheEmbeddings,
-      });
-      filters.push({
-        tag: r.reel.subNiche as string,
-        embedding: r.reel.subNicheEmbeddings,
-      });
-    });
-    return filters;
-  }, [userinfo]);
+  useEffect(() => {
+    if (reels) {
+      setUserReels(reels.map((r) => ({ reel: r })));
+    }
+  }, [reels]);
 
   useEffect(() => {
     if (input === "" || !debounceQuery || debounceQuery === "") {
@@ -87,12 +72,37 @@ function SavedReels() {
     fetchEmbeddings();
   }, [debounceQuery, filter]);
 
+  const tags = useMemo(() => {
+    let tagMap = new Map();
+    let filters = [] as { tag: string; embedding: number[] }[];
+
+    userReels.forEach((r) => {
+      if (tagMap.has(r.reel.niche)) {
+        return;
+      }
+      if (tagMap.has(r.reel.niche)) {
+        return;
+      }
+      tagMap.set(r.reel.niche, true);
+      tagMap.set(r.reel.subNiche, true);
+      filters.push({
+        tag: r.reel.niche as string,
+        embedding: r.reel.nicheEmbeddings,
+      });
+      filters.push({
+        tag: r.reel.subNiche as string,
+        embedding: r.reel.subNicheEmbeddings,
+      });
+    });
+    return filters;
+  }, [userReels]);
+
   const filterReels = useMemo(() => {
     if (filter.tag === "All") {
-      return { success: true, results: userinfo.reels };
+      return { success: true, results: userReels };
     }
 
-    const similarities = userinfo.reels.map((r) => {
+    const similarities = userReels.map((r) => {
       const nicheSimilarity = cosineSimilarity(
         r.reel.nicheEmbeddings,
         filter.embedding,
@@ -120,11 +130,11 @@ function SavedReels() {
       success: true,
       results: topMatches.map((match) => match.reel),
     };
-  }, [filter, userinfo.reels]);
+  }, [filter, userReels]);
 
   const filteredVideos = useMemo(() => {
     if (input === "" && filter.tag === "All") {
-      return { success: true, results: userinfo.reels };
+      return { success: true, results: userReels };
     }
     if (!debounceQuery || debounceQuery === "" || !searchEmbedding) {
       return filterReels;
@@ -163,13 +173,17 @@ function SavedReels() {
     console.log(filter);
     setInput("");
   };
+
   function tagsHandler(tag: string) {
     let newTagInfo = tags.find((t) => t.tag === tag) ?? { tag, embedding: [0] };
     setFilter(newTagInfo);
   }
 
+  if (isLoading || !reels) {
+    return <ReelsSkeleton />;
+  }
   return (
-    <div className="w-full bg-[#0B0B0F] min-h-screen overflow-y-auto overflow-x-hidden text-white">
+    <div className="w-full  min-h-screen overflow-y-auto overflow-x-hidden text-white">
       {/* Filter Bar */}
       <div className="sticky top-0 z-20 bg-[#0B0B0F]/80 backdrop-blur-xl border-b border-[#23232E]">
         <div className="mx-auto max-w-7xl px-6 py-4">
@@ -246,7 +260,7 @@ function SavedReels() {
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <Reels reels={filteredVideos.results} />
+        <Reels reelsInfo={filteredVideos.results} />
       </div>
     </div>
   );
