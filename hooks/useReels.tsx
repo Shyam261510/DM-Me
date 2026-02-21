@@ -6,38 +6,31 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { setReels } from "@/libs/dataslice";
 import { Reel } from "@/interface";
+import useInfiniteScroll from "./useInfiniteScroll";
 
 export default function useReels() {
   const dispatch = useDispatch();
-  const { status, data: session } = useSession();
-  const [userReels, setUserReels] = useState<Reel[] | undefined>(undefined);
+  const { data: session, status } = useSession();
 
-  const reelsQuery = useQuery({
-    queryKey: ["reels"],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/reels/getUserReels?userId=${session?.user?.id}`,
-      );
-      return res.data;
-    },
-    enabled: status === "authenticated",
-    staleTime: 20_000,
+  const fetchReels = async ({ pageParam }: { pageParam: number }) => {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT!}/api/getReels?userId=${session?.user?.id}&cursor=${pageParam}&limit=8`,
+    );
+    return res.data;
+  };
+
+  const { data, isPending, isFetching, hasNextPage, ref } = useInfiniteScroll({
+    fetcher: fetchReels,
+    key: "reels",
+    status,
   });
-
-  useEffect(() => {
-    // ✅ handle error
-    if (reelsQuery.data && !reelsQuery.data.success) {
-      ErrorToast(reelsQuery.data.message);
-      return;
-    }
-
-    dispatch(setReels(reelsQuery.data?.data as Reel[]));
-    setUserReels(reelsQuery.data?.data as Reel[]);
-    return;
-  }, [reelsQuery.data?.success]);
+  const userReels = data?.pages.flatMap((page) => page.data.reels);
 
   return {
     reels: userReels,
-    isLoading: reelsQuery.isLoading,
+    isLoading: isPending,
+    isFetching,
+    hasNextPage,
+    ref,
   };
 }

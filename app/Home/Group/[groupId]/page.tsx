@@ -1,18 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import { useParams } from "next/navigation";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { handelAsyc } from "@/helper/handleAsync";
 import axios from "axios";
-import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
 import { Reel } from "@/interface";
 import { ReelsSkeleton } from "@/app/frontendComponents/Reels/ReelsSkeleton";
 import Reels from "@/app/frontendComponents/Reels/Reels";
-import { useInView } from "react-intersection-observer";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { useSession } from "next-auth/react";
 
 export default function GroupDetailsPage() {
   const { groupId } = useParams();
-  const { ref, inView } = useInView();
+  const { status } = useSession();
 
   const fetchGroupDetails = async ({ pageParam }: { pageParam: number }) => {
     const response = await handelAsyc(async () => {
@@ -24,33 +23,12 @@ export default function GroupDetailsPage() {
     }, "Error in fetching Group details");
     return response;
   };
-
-  const {
-    isPending,
-    error,
-    data,
-    isFetching,
-    fetchNextPage,
-    hasNextPage,
-    isFetchNextPageError,
-  } = useInfiniteQuery({
-    queryKey: ["groupReels"],
-    queryFn: fetchGroupDetails,
-    staleTime: 20_000,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage.success) {
-        ErrorToast(lastPage.message as string);
-      }
-
-      return !lastPage.data.data.hasNext ? null : lastPage.data.data.cursor;
-    },
+  const { data, isPending, isFetching, hasNextPage, ref } = useInfiniteScroll({
+    fetcher: fetchGroupDetails,
+    key: "groupReels",
+    status,
   });
-  useEffect(() => {
-    if (!inView) return;
 
-    fetchNextPage();
-  }, [inView]);
   const groupReels = (data?.pages.flatMap((page) => page.data.data.reels) ||
     []) as {
     user: { username: string };
@@ -60,10 +38,11 @@ export default function GroupDetailsPage() {
   if (isPending || isFetching) {
     return <ReelsSkeleton />;
   }
+  console.log(groupReels);
 
   return (
     <div>
-      <Reels reelsInfo={groupReels} />
+      {/* <Reels reelsInfo={groupReels} /> */}
 
       {hasNextPage && <div ref={ref} />}
       {isFetching && <ReelsSkeleton />}

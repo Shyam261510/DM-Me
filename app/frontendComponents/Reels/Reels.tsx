@@ -53,7 +53,7 @@ function Reels({ reelsInfo }: ReelsProps) {
             >
               {/* Video */}
               <div className="relative">
-                <VideoComponent url={r.reel.url} thumbnail={r.reel.thumbnail} />
+                <VideoComponent url={r.reel?.url} />
                 {r.user?.username && (
                   <h2
                     className="absolute animate-bounce top-3 right-2 text-xs px-2.5 py-1 rounded-full

@@ -26,7 +26,7 @@ const Reels = dynamic(() => import("@/app/frontendComponents/Reels/Reels"), {
 });
 
 function SavedReels() {
-  const { isLoading, reels } = useReels();
+  const { isLoading, reels, ref, isFetching } = useReels();
 
   const [input, setInput] = useState<string>("");
   const [searchEmbedding, setSearchEmbedding] = useState<number[] | null>(null);
@@ -178,10 +178,10 @@ function SavedReels() {
     let newTagInfo = tags.find((t) => t.tag === tag) ?? { tag, embedding: [0] };
     setFilter(newTagInfo);
   }
-
-  if (isLoading || !reels) {
+  if (isLoading || isFetching) {
     return <ReelsSkeleton />;
   }
+
   return (
     <div className="w-full  min-h-screen overflow-y-auto overflow-x-hidden text-white">
       {/* Filter Bar */}
@@ -261,6 +261,7 @@ function SavedReels() {
       {/* Content */}
       <div className="mx-auto max-w-7xl px-6 py-10">
         <Reels reelsInfo={filteredVideos.results} />
+        <div ref={ref} />
       </div>
     </div>
   );

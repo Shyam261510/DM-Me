@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Video, buildSrc } from "@imagekit/next";
+
 import { Play } from "lucide-react";
 import { VideoSkeleton } from "./VideoSkeleton";
 
 interface VideoComponentProps {
   url: string;
-  thumbnail?: string;
 }
 
-export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
+export const VideoComponent = ({ url }: VideoComponentProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<any>(null);
 
@@ -60,10 +59,6 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
     }
   };
 
-  const poster = thumbnail
-    ? buildSrc({ urlEndpoint: thumbnail, src: thumbnail })
-    : undefined;
-
   return (
     <div
       ref={containerRef}
@@ -84,14 +79,12 @@ export const VideoComponent = ({ url, thumbnail }: VideoComponentProps) => {
           {!loaded && <VideoSkeleton />}
 
           {/* Video */}
-          <Video
+          <video
             ref={videoRef}
-            urlEndpoint={url}
             src={url}
             controls={playing}
             controlsList="nofullscreen"
             preload="metadata"
-            poster={poster}
             onLoadedData={() => setLoaded(true)}
             className={`h-full w-full object-cover transition-opacity duration-500 ${
               loaded ? "opacity-100" : "opacity-0"
