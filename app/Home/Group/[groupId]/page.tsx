@@ -19,7 +19,7 @@ export default function GroupDetailsPage() {
         `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT!}/api/getGroupReels?groupId=${groupId}&cursor=${pageParam}&limit=8`,
       );
 
-      return res.data;
+      return res.data?.data;
     }, "Error in fetching Group details");
     return response;
   };
@@ -29,8 +29,7 @@ export default function GroupDetailsPage() {
     status,
   });
 
-  const groupReels = (data?.pages.flatMap((page) => page.data.data.reels) ||
-    []) as {
+  const groupReels = (data?.pages.flatMap((page) => page.data.reels) || []) as {
     user: { username: string };
     reel: Reel;
   }[];
@@ -38,11 +37,10 @@ export default function GroupDetailsPage() {
   if (isPending || isFetching) {
     return <ReelsSkeleton />;
   }
-  console.log(groupReels);
 
   return (
     <div>
-      {/* <Reels reelsInfo={groupReels} /> */}
+      <Reels reelsInfo={groupReels} />
 
       {hasNextPage && <div ref={ref} />}
       {isFetching && <ReelsSkeleton />}
