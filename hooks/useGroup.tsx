@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 function useGroup() {
   const dispatch = useDispatch();
   const [groupInfo, setGroupInfo] = useState<Group[]>([] as Group[]);
+
   const { status, data: session } = useSession();
 
   const createGroupMutation = useMutation({
@@ -51,7 +52,7 @@ function useGroup() {
             id: String(crypto.randomUUID()),
             groupId: data?.data,
             userId: variables.user?.id,
-            role: Role.ADMIN,
+            role: "ADMIN",
             user: variables.user,
             createdAt: new Date(),
             updatedAt: new Date(),

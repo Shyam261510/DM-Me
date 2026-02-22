@@ -6,8 +6,8 @@ import { Plus, Users } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Spinner } from "@/components/ui/spinner";
-import { group } from "console";
 import Loader from "@/app/frontendComponents/Loader/Loader";
+import DialogButton from "./DialogButton";
 import Link from "next/link";
 
 function Group() {
@@ -39,19 +39,11 @@ function Group() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <h1 className="text-xl sm:text-2xl font-semibold">Groups</h1>
         {groups.length > 0 && (
-          <button
-            onClick={() => setIsOpen(true)}
-            className="
-            flex items-center justify-center gap-2
-            w-full sm:w-auto
-            bg-gradient-to-r from-purple-500 to-pink-500
-            px-4 py-2 rounded-lg text-sm font-medium
-            hover:opacity-90 transition
-          "
-          >
-            <Plus size={18} />
-            Create Group
-          </button>
+          <DialogButton
+            setIsOpen={setIsOpen}
+            icon={<Plus size={18} />}
+            title="Create Group"
+          />
         )}
       </div>
 
@@ -84,7 +76,7 @@ function Group() {
       ) : (
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {/* Group cards here */}
-          {groups.map((group, index) => (
+          {groups.map((group) => (
             <Link
               href={`/Home/Group/${group.id}`}
               key={group.id}

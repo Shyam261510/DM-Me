@@ -1,4 +1,4 @@
-import { createEmbedding } from "@/app/helper/createEmbedding";
+import { createEmbedding } from "@/helper/createEmbedding";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {

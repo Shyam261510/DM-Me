@@ -2,7 +2,8 @@ import { useInView } from "react-intersection-observer";
 import { ServiceResult } from "@/helper/handleAsync";
 import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Role } from "@/interface";
 
 interface UseInfiniteScrollType {
   fetcher: ({
@@ -15,6 +16,7 @@ interface UseInfiniteScrollType {
 }
 function useInfiniteScroll({ fetcher, key, status }: UseInfiniteScrollType) {
   const { ref, inView } = useInView();
+  let role = null as Role | null;
 
   const { isPending, data, isFetching, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -28,6 +30,10 @@ function useInfiniteScroll({ fetcher, key, status }: UseInfiniteScrollType) {
           ErrorToast(lastPage.message as string);
         }
 
+        if (lastPage.data.role) {
+          role = lastPage.data.role;
+        }
+
         return !lastPage.data.hasNext ? null : lastPage.data.cursor;
       },
     });
@@ -38,7 +44,7 @@ function useInfiniteScroll({ fetcher, key, status }: UseInfiniteScrollType) {
     fetchNextPage();
   }, [inView]);
 
-  return { ref, isPending, data, isFetching, hasNextPage };
+  return { ref, isPending, data, isFetching, hasNextPage, role };
 }
 
 export default useInfiniteScroll;

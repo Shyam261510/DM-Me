@@ -26,7 +26,7 @@ export interface UserReel {
   id: string;
   userId: string;
   reelId: string;
-  reel:Reel
+  reel: Reel;
 }
 
 export interface Reel {
@@ -45,7 +45,4 @@ export interface Reel {
   createdAt: Date;
 }
 
-export enum Role {
-  ADMIN,
-  MEMBER,
-}
+export type Role = "ADMIN" | "MEMBER";
