@@ -7,22 +7,19 @@ export const NEXT_AUTH = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  url: process.env.NEXTAUTH_URL, // Explicitly set the base URL
   session: {
     updateAge: 30 * 60, // session for 30 min
-  },
-  cookies: {
-    sessionToken: {
-      name: `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
   },
   callbacks: {
     async signIn({ user }: any) {

@@ -17,7 +17,12 @@ import DialogButton from "../DialogButton";
 import DialogCompo from "@/app/frontendComponents/Custom/DialogCompo";
 import DialogChildren from "../DialogChildren";
 import { useMutation } from "@tanstack/react-query";
-import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
+import {
+  ErrorToast,
+  successToast,
+} from "@/app/frontendComponents/Toasts/toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/libs/Store";
 
 const Reels = dynamic(() => import("@/app/frontendComponents/Reels/Reels"), {
   loading: () => <ReelsSkeleton />,
@@ -26,10 +31,14 @@ const Reels = dynamic(() => import("@/app/frontendComponents/Reels/Reels"), {
 
 export default function GroupDetailsPage() {
   const { groupId } = useParams();
+  const groups = useSelector((state: RootState) => state.dataSlice.groups);
+
   const { status, data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [memberEmail, setMemberEmail] = useState<string>("");
   const [memberEmails, setMemberEmails] = useState<string[]>([]);
+
+  const group = groups.find((group) => group.id === groupId);
 
   const fetchGroupDetails = async ({ pageParam }: { pageParam: number }) => {
     const response = await handelAsyc(async () => {
@@ -64,15 +73,23 @@ export default function GroupDetailsPage() {
 
   const inviteMemberMutation = useMutation({
     mutationFn: async () => {
-      return axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/api/inviteMember`,
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/api/sendInvitation`,
         {
           groupId,
           emails: memberEmails,
+          userId: session?.user?.id as string,
+          groupName: group?.groupName as string,
         },
       );
+      return res.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data?.success) {
+        ErrorToast(data?.message);
+        return;
+      }
+      successToast("Member invited successfully");
       setMemberEmails([]);
       setMemberEmail("");
       setIsOpen(false);
