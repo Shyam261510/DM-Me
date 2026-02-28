@@ -1,10 +1,10 @@
-import { Group, Reel, User } from "@/interface";
+import { Group, Reel, User, GroupInfo } from "@/interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {} as User,
   reels: [] as Reel[],
-  groups: [] as Group[],
+  groups: [] as GroupInfo[],
   loading: false,
 };
 
@@ -18,10 +18,10 @@ const dataSlice = createSlice({
     setReels: (state, action: PayloadAction<Reel[]>) => {
       state.reels = action.payload;
     },
-    setGroup: (state, action: PayloadAction<Group>) => {
+    setGroup: (state, action: PayloadAction<GroupInfo>) => {
       state.groups = [...state.groups, action.payload];
     },
-    setGroups: (state, action: PayloadAction<Group[]>) => {
+    setGroups: (state, action: PayloadAction<GroupInfo[]>) => {
       state.groups = action.payload;
     },
 

@@ -1,10 +1,7 @@
-"use client";
 import NavbarLogo from "@/app/Logo/NavbarLogo";
-import useSignIn from "@/hooks/useSignIn";
+import Link from "next/link";
 
 const LandingNavbar = () => {
-  const handleSignIn = useSignIn();
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-[#23232E] bg-[#0B0B0F]/50 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -34,12 +31,12 @@ const LandingNavbar = () => {
             </a>
           </nav>
 
-          <button
-            onClick={handleSignIn}
+          <Link
+            href="/login"
             className="px-6 py-2 text-sm font-semibold text-white rounded-2xl bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] transition-all hover:shadow-lg hover:shadow-[#6C5CE7]/50 hover:scale-105 active:scale-95"
           >
             Get Started
-          </button>
+          </Link>
         </div>
       </nav>
     </header>

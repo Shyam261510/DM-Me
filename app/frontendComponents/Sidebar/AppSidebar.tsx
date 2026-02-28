@@ -31,8 +31,9 @@ const items = [
 ];
 interface AppSidebarProps {
   reciverId?: string;
+  status: "loading" | "unauthenticated" | "authenticated";
 }
-export function AppSidebar({ reciverId }: AppSidebarProps) {
+export function AppSidebar({ reciverId, status }: AppSidebarProps) {
   const pathname = usePathname();
 
   return (

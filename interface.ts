@@ -10,6 +10,7 @@ export interface Group {
   groupName: string;
   groupMembers: GroupMember[];
   adminId: string;
+  admin: User;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -45,4 +46,17 @@ export interface Reel {
   createdAt: Date;
 }
 
+export interface GroupInfo {
+  id: string;
+  groupName: string;
+  adminId: string;
+  reels: string[];
+  createdAt: Date;
+  groupMembers: {
+    username: string;
+    userId: string;
+    role: Role;
+    id: string;
+  }[];
+}
 export type Role = "ADMIN" | "MEMBER";

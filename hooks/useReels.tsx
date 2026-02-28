@@ -36,13 +36,10 @@
  * ============================================================
  */
 
-import { useQuery } from "@tanstack/react-query";
+
 import { useSession } from "next-auth/react";
-import { useDispatch } from "react-redux";
 import { ErrorToast } from "@/app/frontendComponents/Toasts/toast";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { setReels } from "@/libs/dataslice";
 import { Reel } from "@/interface";
 import useInfiniteScroll from "./useInfiniteScroll";
 import { handelAsyc } from "@/helper/handleAsync";
@@ -82,7 +79,6 @@ export default function useReels() {
   const userReels = (
     data?.pages.flatMap((page) => page.data.reels ?? []) as Reel[]
   )?.map((r) => ({ reel: r }));
-  
 
   return {
     reels: userReels as ReelsTypes[], // All reels loaded so far

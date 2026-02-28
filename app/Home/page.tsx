@@ -1,5 +1,4 @@
 "use client";
-
 import { useSelector } from "react-redux";
 import { RootState } from "@/libs/Store";
 import { openInstagramDM } from "@/helper/openInstagramDM";
@@ -14,25 +13,50 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const navigator = useRouter();
-
   const userInfo = useSelector((state: RootState) => state.dataSlice.user);
-
-  useEffect(() => {
-    if (userInfo?.reciverId) {
-      navigator.push("/Home/SavedReels");
-    }
-  }, [userInfo?.reciverId, navigator]);
-
+  useSetupRedirect(userInfo?.reciverId);
+  const { message, handleCopy } = useSetupMessage(
+    userInfo?.username ?? "",
+    userInfo?.email ?? "",
+  );
   if (!userInfo) {
     return <Loader />;
   }
-  const message = getMessage(userInfo.username, userInfo.email as string);
+  return (
+    <SetupView
+      username={userInfo.username}
+      message={message}
+      handleCopy={handleCopy}
+    />
+  );
+}
+
+function useSetupRedirect(reciverId?: string) {
+  const navigator = useRouter();
+  useEffect(() => {
+    if (reciverId) {
+      navigator.push("/Home/SavedReels");
+    }
+  }, [reciverId]);
+}
+
+function useSetupMessage(username: string, email: string) {
+  const message = getMessage(username, email);
 
   const handleCopy = () => {
     copyToClipboard(message);
     successToast("Copied to clipboard");
   };
+  return { message, handleCopy };
+}
+
+interface SetupViewProps {
+  username: string;
+  message: string;
+  handleCopy: () => void;
+}
+
+function SetupView({ username, message, handleCopy }: SetupViewProps) {
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-white">
       <main className="max-w-4xl mx-auto px-6 py-10 space-y-10">
@@ -58,7 +82,7 @@ export default function Home() {
           {/* Message Box */}
           <div className="bg-[#0B0B0F] border border-[#23232E] rounded-lg p-4 flex justify-between items-start gap-4">
             <p className="text-sm">
-              Hi! This is <b>{userInfo.username}</b> ******** 👋
+              Hi! This is <b>{username}</b> ******** 👋
             </p>
 
             <button

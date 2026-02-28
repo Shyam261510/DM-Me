@@ -11,9 +11,11 @@ import { useDispatch } from "react-redux";
 import { setGroup, setGroups } from "@/libs/dataslice";
 import { useSession } from "next-auth/react";
 
+import { GroupInfo } from "@/interface";
+
 function useGroup() {
   const dispatch = useDispatch();
-  const [groupInfo, setGroupInfo] = useState<Group[]>([] as Group[]);
+  const [groupInfo, setGroupInfo] = useState<GroupInfo[]>([] as GroupInfo[]);
 
   const { status, data: session } = useSession();
 
@@ -43,24 +45,21 @@ function useGroup() {
         ErrorToast(data.message);
         return;
       }
-      const newGroupInfo = {
+      const newGroupInfo: GroupInfo = {
         id: data?.data,
         groupName: variables.groupName,
         adminId: variables.user?.id,
+        reels: [] as string[],
         groupMembers: [
           {
             id: String(crypto.randomUUID()),
-            groupId: data?.data,
             userId: variables.user?.id,
             role: "ADMIN",
-            user: variables.user,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            username: variables.user.username,
           },
-        ] as GroupMember[],
+        ],
         createdAt: new Date(),
-        updatedAt: new Date(),
-      } as Group;
+      };
 
       setGroupInfo([...groupInfo, newGroupInfo]);
       dispatch(setGroup(newGroupInfo));
@@ -91,13 +90,13 @@ function useGroup() {
       ErrorToast(getGroupQuery.data.message);
       return;
     }
-    setGroupInfo(getGroupQuery.data?.data as Group[]);
-    dispatch(setGroups(getGroupQuery.data?.data as Group[]));
+    setGroupInfo(getGroupQuery.data?.data as GroupInfo[]);
+    dispatch(setGroups(getGroupQuery.data?.data as GroupInfo[]));
     return;
   }, [getGroupQuery.data?.success]);
 
   return {
-    groups: groupInfo ?? ([] as Group[]),
+    groups: groupInfo ?? ([] as GroupInfo[]),
     createGroupMutation,
     isLoading: getGroupQuery.isLoading,
   };

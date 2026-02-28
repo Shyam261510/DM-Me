@@ -27,6 +27,7 @@ import Reel11 from "@/public/reels/reel11.webp";
 import Reel12 from "@/public/reels/reel12.webp";
 import Reel13 from "@/public/reels/reel13.webp";
 import Reel14 from "@/public/reels/reel14.webp";
+import { HeadersAdapter } from "next/dist/server/web/spec-extension/adapters/headers";
 
 type Props = {
   images: StaticImageData[];
@@ -55,23 +56,7 @@ const ProblemSection = () => {
   return (
     <LazyMotion features={domAnimation}>
       <section id="problem" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Heading */}
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Instagram Saves Are a{" "}
-              <span className="bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
-                Mess
-              </span>
-            </h2>
-          </m.div>
-        </div>
+        <Header />
 
         <div className="flex flex-col gap-24">
           <FloatingReels images={reels} />
@@ -84,7 +69,30 @@ const ProblemSection = () => {
 
 export default ProblemSection;
 
+const Header = () => {
+  return (
+    <div className="max-w-7xl mx-auto px-6">
+      {/* Heading */}
+      <m.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-16"
+      >
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          Instagram Saves Are a{" "}
+          <span className="bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
+            Mess
+          </span>
+        </h2>
+      </m.div>
+    </div>
+  );
+};
+
 const FloatingReels = ({ images }: Props) => {
+  
   const positions = useMemo(
     () =>
       images.map(() => ({
