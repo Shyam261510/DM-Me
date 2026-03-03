@@ -2,7 +2,6 @@ import LandingNavbar from "./components/LandingNavbar";
 import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
 import dynamic from "next/dynamic";
-import BeforeAfterSlider from "../frontendComponents/Custom/BeforeAfterSlider";
 
 // Keep above-the-fold components normal (no loader flash)
 // Dynamic import everything below the fold
@@ -27,8 +26,6 @@ const SocialProofSection = dynamic(
   () => import("./components/SocialProofSection"),
 );
 const FinalCTASection = dynamic(() => import("./components/FinalCTASection"));
-import BeforeImage from "@/public/Before.svg";
-import AfterImage from "@/public/After2.svg";
 
 export default function LandingPage() {
   return (
@@ -37,18 +34,15 @@ export default function LandingPage() {
       <HeroSection />
       {/* Below sections load as user scrolls */}
       <SetupVideoSection />
-      <BeforeAfterSlider
-        beforeImage={BeforeImage.src}
-        afterImage={AfterImage.src}
-        className=""
-      />
-      {/* <ProblemSection /> */}
+
+      <ProblemSection />
       <HowItWorksSection />
-      {/* <FeaturesSection />
       <UseCasesSection />
-      <ProductDemoSection /> */}
+      <FeaturesSection />
+
+      <ProductDemoSection />
       <SocialProofSection />
-      {/* <FinalCTASection /> */}
+      <FinalCTASection />
       <Footer />
     </div>
   );

@@ -11,7 +11,7 @@ export default function SetupVideoSection() {
         <Video
           src={SetupVideo}
           controls
-          thumbnailTime={0}
+          thumbnailTime={3.5}
           preload="none"
           className="w-full h-auto"
         />
