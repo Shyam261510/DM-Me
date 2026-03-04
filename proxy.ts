@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { is } from "zod/v4/locales";
 
-const PUBLIC_ROUTES = [
-  "/",
-  "/privacy-policy",
-  "/terms-and-conditions",
-  "/login",
-];
+const PUBLIC_ROUTES = ["/", "/login"];
+const SPEICAL_ROUTES = ["/privacy-policy", "/terms-and-conditions"];
 const PUBLIC_PREFIX = ["/invite"];
 // check exact frontend public paths
 function isPublicRoute(pathname: string): boolean {
@@ -13,6 +10,10 @@ function isPublicRoute(pathname: string): boolean {
     PUBLIC_ROUTES.includes(pathname) ||
     PUBLIC_PREFIX.some((prefix) => pathname.startsWith(prefix))
   );
+}
+
+function isSpecialRoute(pathname: string): boolean {
+  return SPEICAL_ROUTES.includes(pathname);
 }
 
 function getSessionToken(req: NextRequest): string | undefined {
@@ -24,6 +25,10 @@ function getSessionToken(req: NextRequest): string | undefined {
 
 export async function proxy(req: NextRequest) {
   const session = getSessionToken(req);
+
+  if (isSpecialRoute(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
   if (!session && !isPublicRoute(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }

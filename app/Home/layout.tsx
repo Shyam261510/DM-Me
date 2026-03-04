@@ -14,12 +14,33 @@ import axios from "axios";
 import { ErrorToast } from "../frontendComponents/Toasts/toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import { Video, Users, User } from "lucide-react";
+import NavigationTabs from "../frontendComponents/Custom/NavigationTabs";
+
+const Tabs = [
+  {
+    title: "Saved Reels",
+    icons: <Video />,
+    link: "/Home/SavedReels",
+  },
+  {
+    title: "Groups",
+    icons: <Users />,
+    link: "/Home/Group",
+  },
+  {
+    title: "Profile",
+    icons: <User />,
+    link: "/Home/Profile",
+  },
+];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const naviagte = useRouter();
   const { isLoading, user, status } = useUserData();
   const groupInfo = useGroupInfo();
   const [isOpen, setIsOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState(0);
 
   const hasGroup = Object.entries(groupInfo).length !== 0;
 
@@ -51,45 +72,61 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   if (isLoading) return <Loader />;
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-gradient-to-b from-[#0B0B0F] to-[#07070A] text-white">
-        {/* Sidebar */}
-        <AppSidebar reciverId={user?.reciverId} status={status} />
+    <div className="relative w-full">
+      <div className="hidden md:block">
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-gradient-to-b from-[#0B0B0F] to-[#07070A] text-white">
+            {/* Sidebar */}
+            <AppSidebar reciverId={user?.reciverId} status={status} />
 
-        {/* Main Area */}
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
-          <div
-            className="
+            {/* Main Area */}
+            <main className="flex-1 flex flex-col overflow-hidden">
+              {/* Header */}
+              <div
+                className="
           sticky top-0 z-20
           bg-[#0B0B0F]/70
           backdrop-blur-2xl
           border-b border-white/5
           shadow-[0_4px_20px_rgba(0,0,0,0.35)]
         "
-          >
-            <Header />
+              >
+                <Header />
+              </div>
+
+              {/* Page Content */}
+
+              {children}
+
+              {/* Notification Dialog */}
+              {hasGroup && (
+                <NotificationDialog
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                  description={`${groupInfo.admin.username} invited you to join "${groupInfo.groupName}"`}
+                  isLoading={joinGroupMutation.isPending}
+                  mutation={joinGroupMutation.mutate}
+                />
+              )}
+            </main>
           </div>
-
-          {/* Page Content */}
-
-          {children}
-
-          {/* Notification Dialog */}
-          {hasGroup && (
-            <NotificationDialog
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              description={`${groupInfo.admin.username} invited you to join "${groupInfo.groupName}"`}
-              isLoading={joinGroupMutation.isPending}
-              mutation={joinGroupMutation.mutate}
-            />
-          )}
-        </main>
+        </SidebarProvider>
       </div>
-    </SidebarProvider>
+
+      <div className="block md:hidden relative">
+        <div className="pb-20">{children}</div>
+
+        {/* Bottom Navigation */}
+        <NavigationTabs
+          Tabs={Tabs}
+          setActiveTab={setActiveTab}
+          activeTab={activeTab}
+        />
+      </div>
+    </div>
   );
 }
+
 interface DialogChildrenProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

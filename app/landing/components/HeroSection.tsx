@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Search, Tag, Send } from "lucide-react";
 import ShootingStars from "../ShootingStars";
 import { useState, useMemo, useEffect } from "react";
@@ -21,6 +21,7 @@ const HeroSection = () => {
     }, 2000);
     return () => clearTimeout(timeoutId);
   }, [titleNumber, titles]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Animated Background Gradients */}
@@ -64,6 +65,14 @@ const HeroSection = () => {
                         }
                   }
                 >
+                  {titleNumber === 0 && index === 0 && (
+                    <motion.div
+                      className="absolute top-3 border sm:top-5 md:top-8 lg:top-10"
+                      initial={{ width: 0, height: 0 }}
+                      animate={{ width: "100%", height: 2 }}
+                      transition={{ duration: 0.5, delay: 0.5 }}
+                    />
+                  )}
                   {title}
                 </motion.span>
               ))}
