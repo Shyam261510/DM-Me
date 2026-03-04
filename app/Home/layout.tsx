@@ -40,7 +40,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { isLoading, user, status } = useUserData();
   const groupInfo = useGroupInfo();
   const [isOpen, setIsOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState(0);
 
   const hasGroup = Object.entries(groupInfo).length !== 0;
 
@@ -117,11 +116,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="pb-20">{children}</div>
 
         {/* Bottom Navigation */}
-        <NavigationTabs
-          Tabs={Tabs}
-          setActiveTab={setActiveTab}
-          activeTab={activeTab}
-        />
+        <NavigationTabs Tabs={Tabs} />
       </div>
     </div>
   );
