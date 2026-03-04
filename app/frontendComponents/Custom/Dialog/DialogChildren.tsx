@@ -118,6 +118,26 @@ function DialogChildren({
         "
           />
         </form>
+        {formHandler && (
+          <div className="flex justify-end md:hidden">
+            <button
+              onClick={formHandler}
+              className="mt-2 w-22 sm:w-auto
+        px-4 sm:px-5
+        py-2.5
+        text-sm rounded-xl
+        bg-gradient-to-r from-purple-500 to-pink-500
+        font-medium text-white
+        shadow-lg shadow-purple-500/10
+        hover:opacity-90
+        disabled:opacity-60
+        disabled:cursor-not-allowed
+        transition"
+            >
+              Add
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Actions */}

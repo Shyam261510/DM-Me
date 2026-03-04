@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/spinner";
 import Loader from "@/app/frontendComponents/Loader/Loader";
 import DialogButton from "../../frontendComponents/Custom/Dialog/DialogButton";
 import GroupCard from "@/app/frontendComponents/Group/GroupCard";
+import DialogChildren from "@/app/frontendComponents/Custom/Dialog/DialogChildren";
 
 function Group() {
   const userInfo = useSelector((state: RootState) => state.dataSlice.user);
@@ -124,70 +125,17 @@ function Group() {
     "
         icon={<Users />}
       >
-        <div className="space-y-5">
-          {/* Input */}
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Group Name</label>
-
-            <input
-              type="text"
-              placeholder="e.g. Marketing Team"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-              className="
-            h-11 w-full
-            rounded-lg
-            border border-[#23232E]
-            bg-[#0B0B0F]
-            px-4 text-sm text-white
-            placeholder:text-[#71717A]
-            outline-none
-            focus:border-purple-500
-            focus:ring-2 focus:ring-purple-500/30
-            transition
-          "
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row justify-end gap-3">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="
-            w-full sm:w-auto
-            px-4 py-2 text-sm rounded-lg
-            border border-[#23232E]
-            text-gray-400
-            hover:bg-[#23232E]
-            transition
-          "
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={handleCreate}
-              disabled={createGroupMutation.isPending}
-              className="
-            w-full sm:w-auto
-            px-4 py-2 text-sm rounded-lg
-            bg-gradient-to-r from-purple-500 to-pink-500
-            font-medium
-            hover:opacity-90 active:scale-[0.98]
-            transition
-          "
-            >
-              {createGroupMutation.isPending ? (
-                <span className="flex gap-2 items-center">
-                  <Spinner />
-                  Creating...
-                </span>
-              ) : (
-                "Create Group"
-              )}
-            </button>
-          </div>
-        </div>
+        <DialogChildren
+          input={groupName}
+          setInput={setGroupName}
+          mutation={handleCreate}
+          isPending={createGroupMutation.isPending}
+          loader="Creating..."
+          buttonName="Create Group"
+          setIsOpen={setIsOpen}
+          label="Group Name"
+          placeholder="e.g. Marketing Team"
+        />
       </DialogCompo>
     </div>
   );

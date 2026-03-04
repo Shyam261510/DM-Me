@@ -8,15 +8,9 @@ interface TabsTypes {
 }
 
 interface NavigationTabsProps {
-  activeTab: number;
-  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
   Tabs: TabsTypes[];
 }
-function NavigationTabs({
-  Tabs,
-  activeTab,
-  setActiveTab,
-}: NavigationTabsProps) {
+function NavigationTabs({ Tabs }: NavigationTabsProps) {
   const pathName = usePathname();
 
   return (
@@ -39,7 +33,6 @@ function NavigationTabs({
             <Link
               href={tab.link}
               key={tab.title}
-              onClick={() => setActiveTab(index)}
               className="relative flex flex-col items-center justify-center flex-1 cursor-pointer"
             >
               {/* Active Background Bubble */}

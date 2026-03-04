@@ -9,6 +9,15 @@ export interface ReelsTypes {
   reel: Reel;
 }
 
+function truncateText(
+  text: string | undefined | null,
+  length: number = 4,
+): string {
+  if (!text) return "";
+
+  return text.length > length ? text.slice(0, length) + "...." : text;
+}
+
 function Reels({ reelsInfo }: ReelsProps) {
   // Empty State
   if (!reelsInfo.length) {
@@ -90,10 +99,11 @@ function Reels({ reelsInfo }: ReelsProps) {
                     text-xs px-2.5 py-1 rounded-full
                     bg-[#6C5CE7]/15
                     text-[#6C5CE7]
-                    border border-[#6C5CE7]/30
+                    border border-[#6C5CE7]/30 line-clamp-2
                   "
                   >
-                    {r.reel.niche}
+                    <h2 className="hidden sm:block"> {r.reel.niche}</h2>
+                    <h2 className="sm:hidden">{truncateText(r.reel.niche)}</h2>
                   </span>
 
                   <span
@@ -104,7 +114,10 @@ function Reels({ reelsInfo }: ReelsProps) {
                     border border-[#FF4D8D]/30
                   "
                   >
-                    {r.reel.subNiche}
+                    <h2 className="hidden sm:block"> {r.reel.subNiche}</h2>
+                    <h2 className="sm:hidden">
+                      {truncateText(r.reel.subNiche)}
+                    </h2>
                   </span>
                 </div>
               </div>
