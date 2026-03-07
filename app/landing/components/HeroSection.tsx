@@ -1,91 +1,88 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Search, Tag, Send } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+
 import ShootingStars from "../ShootingStars";
-import { useState, useMemo, useEffect } from "react";
+
+import { Instrument_Serif } from "next/font/google";
+
+import dynamic from "next/dynamic";
+const SetupVideoSection = dynamic(() => import("./SetupVideoSection"));
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  style: ["italic"],
+});
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
 const HeroSection = () => {
-  const [titleNumber, setTitleNumber] = useState(0);
-  const titles = useMemo(
-    () => ["Becomes A Mess.", "via DM. Find Them Anytime."],
-    [],
-  );
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (titleNumber === titles.length - 1) {
-        setTitleNumber(0);
-      } else {
-        setTitleNumber(titleNumber + 1);
-      }
-    }, 2000);
-    return () => clearTimeout(timeoutId);
-  }, [titleNumber, titles]);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Animated Background Gradients */}
-      <div className="absolute inset-0 overflow-hidden">
+    <section className="min-h-screen w-full relative pt-24 sm:pt-32 px-4 sm:px-6">
+      <div className="absolute inset-0 w-full mx-auto z-1">
         <ShootingStars />
       </div>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col justify-center items-center w-full h-full space-y-4 sm:space-y-8 "
+      >
+        <motion.h2
+          variants={item}
+          className="text-[11px] sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 border rounded-2xl"
+        >
+          THE INSTAGRAM ORGANIZER
+        </motion.h2>
 
-      <div className="relative z-10  mx-auto px-6 py-20 md:w-7xl">
-        <div className="text-center">
-          {/* Core Message Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#16161F] border border-[#23232E] mb-8">
-            <Send className="w-4 h-4 text-[#6C5CE7]" />
-            <span className="text-sm text-[#A1A1AA]">DM</span>
-            <ArrowRight className="w-4 h-4 text-[#A1A1AA]" />
-            <Tag className="w-4 h-4 text-[#FF4D8D]" />
-            <ArrowRight className="w-4 h-4 text-[#A1A1AA]" />
-            <Search className="w-4 h-4 text-[#6C5CE7]" />
-          </div>
+        <motion.h2
+          variants={item}
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-normal w-full text-center"
+        >
+          Saved a reel.. but{" "}
+          <span className="tracking-tight px-1 sm:px-2 bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
+            can't <span className="tracking-normal">find</span> it?
+          </span>
+        </motion.h2>
 
-          {/* Headline */}
-          <h1 className="text-[5vw] sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Save Instagram Reels
-            <br />
-            <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1">
-              &nbsp;
-              {titles.map((title, index) => (
-                <motion.span
-                  key={index}
-                  className="absolute font-semibold bg-gradient-to-r from-[#6C5CE7] via-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent"
-                  initial={{ opacity: 0, y: "-100" }}
-                  transition={{ type: "spring", stiffness: 50 }}
-                  animate={
-                    titleNumber === index
-                      ? {
-                          y: 0,
-                          opacity: 1,
-                        }
-                      : {
-                          y: titleNumber > index ? -150 : 150,
-                          opacity: 0,
-                        }
-                  }
-                >
-                  {titleNumber === 0 && index === 0 && (
-                    <motion.div
-                      className="absolute top-3 border sm:top-5 md:top-8 lg:top-10"
-                      initial={{ width: 0, height: 0 }}
-                      animate={{ width: "100%", height: 2 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                    />
-                  )}
-                  {title}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
+        <motion.p
+          variants={item}
+          className="text-sm sm:text-base lg:text-lg text-zinc-300 text-center w-[90%] sm:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto"
+        >
+          Stop losing your favorite Instagram reels in the void. JustDM
+          organizes your saves into searchable, actionable collections so you
+          can actually find them later.
+        </motion.p>
 
-          {/* Subtext */}
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-[#A1A1AA] mb-10 max-w-2xl mx-auto leading-relaxed">
-            No more endless scrolling through Instagram saves. Just DM a reel,
-            organize it with tags, and search it anytime.
-          </p>
-        </div>
-      </div>
+        <motion.div variants={item} className="w-full pointer-events-none z-10">
+          <SetupVideoSection />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

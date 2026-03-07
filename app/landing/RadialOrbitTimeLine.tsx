@@ -62,7 +62,7 @@ export default function RadialOrbitalTimeline({
 
     if (autoRotate) {
       timer = setInterval(() => {
-        setRotationAngle((prev) => (prev + 0.3) % 360);
+        setRotationAngle((prev) => (prev + 0.8) % 360);
       }, 40);
     }
 

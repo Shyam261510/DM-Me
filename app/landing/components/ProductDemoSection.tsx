@@ -1,236 +1,260 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Send, Search, Tag } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { Search, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Reel1 from "@/public/reels/reel1.webp";
+import { Typewriter } from "@/app/frontendComponents/Custom/Typewriter";
+
 import Reel2 from "@/public/reels/reel2.webp";
 import Reel3 from "@/public/reels/reel3.webp";
+import Reel5 from "@/public/reels/reel5.webp";
+import Reel6 from "@/public/reels/reel6.webp";
+import Reel7 from "@/public/reels/reel7.webp";
+import Reel9 from "@/public/reels/reel9.webp";
 
+import Reel13 from "@/public/reels/reel13.webp";
+import Reel14 from "@/public/reels/reel14.webp";
+
+import { Instrument_Serif } from "next/font/google";
+import { useMemo, useState } from "react";
+import ReelSkeleton from "@/app/frontendComponents/Reels/ReelSkeleton";
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  style: ["italic"],
+});
+const Categories = [
+  {
+    search: "Reels regarding content creation.",
+    results: [
+      {
+        image: Reel2.src,
+        caption: "Behind the scenes of creating engaging reels ✨📱",
+        niche: "Content Creation",
+        subNiche: "Behind the Scenes",
+      },
+      {
+        image: Reel3.src,
+        caption: "Tips to level up your content creation game 🚀🎬",
+        niche: "Content Creation",
+        subNiche: "Tips & Growth",
+      },
+      {
+        image: Reel5.src,
+        caption: "Editing tricks every content creator should know 🎥⚡",
+        niche: "Content Creation",
+        subNiche: "Editing Tips",
+      },
+      {
+        image: Reel6.src,
+        caption: "From idea to viral reel – the creator journey 💡🔥",
+        niche: "Content Creation",
+        subNiche: "Creator Journey",
+      },
+    ],
+  },
+  {
+    search: "Reels regarding video editing.",
+    results: [
+      {
+        image: Reel7.src,
+        caption: "Quick video editing tips to make your reels stand out 🎥⚡",
+        niche: "Video Editing",
+        subNiche: "Quick Tips",
+      },
+      {
+        image: Reel9.src,
+        caption: "Transform raw clips into cinematic edits ✂️🔥",
+        niche: "Video Editing",
+        subNiche: "Cinematic Editing",
+      },
+      {
+        image: Reel13.src,
+        caption: "Simple transitions that instantly upgrade your edits 🎬✨",
+        niche: "Video Editing",
+        subNiche: "Transitions",
+      },
+      {
+        image: Reel14.src,
+        caption: "Editing workflow every creator should know 💻🎞️",
+        niche: "Video Editing",
+        subNiche: "Editing Workflow",
+      },
+    ],
+  },
+];
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const item: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
 const ProductDemoSection = () => {
-  const Reels = [Reel1, Reel2, Reel3];
-  const Tags = [
-    { niche: "Fitness", subNiche: "Bench Press" },
-    { niche: "Tech", subNiche: "Interview Prep" },
-    { niche: "Book Reading", subNiche: "Self-Motivation" },
-  ];
   return (
-    <section id="demo" className="relative py-32 bg-[#111118]">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            See{" "}
-            <span className="bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] bg-clip-text text-transparent">
-              JustDM
-            </span>{" "}
-            in Action
-          </h2>
-          <p className="text-xl text-[#A1A1AA] max-w-2xl mx-auto">
-            Watch how easy it is to save, tag, and find your Instagram reels
-          </p>
-        </motion.div>
-
-        {/* Step 1: Instagram DM Flow */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20"
-        >
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#16161F] border border-[#23232E] mb-4">
-              <Send className="w-4 h-4 text-[#6C5CE7]" />
-              <span className="text-sm text-white font-medium">
-                Step 1: Send via Instagram DM
-              </span>
-            </div>
-            <h3 className="text-2xl font-semibold text-white mb-2">
-              Share any reel to JustDM
-            </h3>
-            <p className="text-[#A1A1AA]">
-              Simply tap the share button and send to your JustDM account
-            </p>
-          </div>
-
-          {/* Instagram Reel Images Grid - Placeholder for 3 images */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto">
-            {Reels.map((reel, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative aspect-[9/14] sm:aspect-[9/16] rounded-2xl bg-[#16161F] border border-[#23232E] overflow-hidden group hover:scale-[1.03] transition"
-              >
-                {/* Image */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={reel}
-                    alt={`Reel ${index}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-                {/* Send Button */}
-                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4">
-                  <motion.div
-                    animate={{ scale: [1, 1.08, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] flex items-center justify-center shadow-lg"
-                  >
-                    <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Step 2: Organized Dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20"
-        >
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#16161F] border border-[#23232E] mb-4">
-              <Tag className="w-4 h-4 text-[#FF4D8D]" />
-              <span className="text-sm text-white font-medium">
-                Step 2: Organized Dashboard
-              </span>
-            </div>
-            <h3 className="text-2xl font-semibold text-white mb-2">
-              All your reels, beautifully organized
-            </h3>
-            <p className="text-[#A1A1AA]">
-              Tag and categorize your saved reels for instant access
-            </p>
-          </div>
-
-          {/* Dashboard Images Grid - Placeholder for 3 images */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {Tags.map((tag, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative aspect-video rounded-2xl bg-[#16161F] border border-[#23232E] overflow-hidden group hover:border-[#6C5CE7]/50 transition-colors"
-              >
-                {/* Placeholder for dashboard image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#16161F] to-[#1a1a24] p-6">
-                  <div className="h-full flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="w-2 h-2 rounded-full bg-[#6C5CE7]"></div>
-                      <div className="w-2 h-2 rounded-full bg-[#FF4D8D]"></div>
-                      <div className="w-2 h-2 rounded-full bg-[#FF8A00]"></div>
-                    </div>
-                    <div className="flex-1 grid grid-cols-2 gap-2">
-                      <div className="bg-[#23232E] rounded-lg"></div>
-                      <div className="bg-[#23232E] rounded-lg"></div>
-                      <div className="bg-[#23232E] rounded-lg"></div>
-                      <div className="bg-[#23232E] rounded-lg"></div>
-                    </div>
-                    <div className="mt-4 flex gap-2">
-                      <div className="px-3 py-1 rounded-full bg-[#6C5CE7]/20 border border-[#6C5CE7]/30 text-xs text-[#6C5CE7]">
-                        {tag.niche}
-                      </div>
-                      <div className="px-3 py-1 rounded-full bg-[#FF4D8D]/20 border border-[#FF4D8D]/30 text-xs text-[#FF4D8D]">
-                        {tag.subNiche}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Step 3: Share Dialog */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-md mx-auto"
-        >
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#16161F] border border-[#23232E] mb-4">
-              <Search className="w-4 h-4 text-[#6C5CE7]" />
-              <span className="text-sm text-white font-medium">
-                Step 3: Share DM Me
-              </span>
-            </div>
-            <h3 className="text-2xl font-semibold text-white mb-2">
-              Share with me or find instantly
-            </h3>
-            <p className="text-[#A1A1AA]">
-              Send reels to me rather than saving them on Instagram saves
-            </p>
-          </div>
-
-          {/* Share Dialog - Placeholder */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative aspect-[9/16] rounded-2xl bg-[#16161F] border border-[#23232E] overflow-hidden"
+    <section
+      id="demo"
+      className="relative py-24 bg-gradient-to-b from-black via-zinc-950 to-black space-y-5"
+    >
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        <div className="flex flex-col items-center space-y-6">
+          <motion.h2
+            variants={item}
+            className="text-[11px] sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 border rounded-2xl"
           >
-            <div className="absolute inset-0 p-6 flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <h4 className="text-white font-semibold">Share</h4>
-                <div className="w-6 h-6 rounded-full bg-[#23232E]"></div>
-              </div>
-              <div className="mb-4">
-                <label className="text-sm text-[#A1A1AA] mb-2 block">To:</label>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full px-4 py-2 rounded-lg bg-[#0B0B0F] border border-[#23232E] text-white placeholder-[#A1A1AA] focus:outline-none focus:border-[#6C5CE7]"
-                />
-              </div>
-              <div className="mb-4">
-                <p className="text-sm text-[#A1A1AA] mb-3">Suggested</p>
-                <div className="space-y-3">
-                  {[1, 2].map((i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D]"></div>
-                      <div className="flex-1">
-                        <div className="h-4 bg-[#23232E] rounded w-24 mb-2"></div>
-                        <div className="h-3 bg-[#23232E] rounded w-32"></div>
-                      </div>
-                      <div className="w-5 h-5 rounded-full border border-[#23232E]"></div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-auto">
-                <button className="w-full py-3 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] text-white font-semibold">
-                  Send
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
+            The Smartest Way to Save
+          </motion.h2>
+
+          <motion.h2
+            variants={item}
+            className="text-5xl md:text-7xl lg:text-8xl tracking-tighter w-full text-center"
+          >
+            Find any reel in{" "}
+            <span
+              className={`${instrumentSerif.className} tracking-tight px-1 sm:px-2 bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent`}
+            >
+              seconds.
+            </span>
+          </motion.h2>
+
+          <motion.p
+            variants={item}
+            className="text-sm sm:text-base lg:text-lg text-zinc-300 text-center w-[90%] sm:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto"
+          >
+            Stop scrolling endlessly. JustDM's AI-powered search indexes your
+            Instagram saves so you can find that one recipe, workout, or meme
+            instantly.
+          </motion.p>
+        </div>
+      </motion.div>
+
+      <IntractiveSection />
     </section>
   );
 };
 
 export default ProductDemoSection;
+
+function IntractiveSection() {
+  const [displayText, setDisplayText] = useState<string>("");
+
+  return (
+    <div className="w-full flex flex-col items-center justify-center space-y-6">
+      <div className="relative w-[75%] md:w-[70%] lg:w-[55%] xl:w-[30%] flex flex-col items-center justify-center">
+        <div className="border w-full px-5 py-2 rounded-lg flex justify-between items-center ">
+          <div className="flex items-center gap-6">
+            {" "}
+            <Search size={15} />
+            <Typewriter
+              text={Categories.map((c) => c.search)}
+              loop={true}
+              speed={50}
+              displayText={displayText}
+              setDisplayText={setDisplayText}
+            />
+          </div>
+          <div className="h-7 w-7 bg-zinc-800 rounded-full flex items-center justify-center ">
+            <ArrowRight size={15} />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-[75%] md:w-[70%] lg:w-[65%]  space-y-6">
+        <h2 className="text-sm tracking-tight text-zinc-400 font-semibold text-start">
+          INSTANT RESULTS
+        </h2>
+
+        <ResultSection displayText={displayText} />
+      </div>
+    </div>
+  );
+}
+
+function ResultSection({ displayText }: { displayText: string }) {
+  const results = useMemo(() => {
+    if (Categories.some((c) => c.search === displayText)) {
+      return Categories.find((c) => c.search === displayText)?.results;
+    }
+    return [] as {
+      image: string;
+      caption: string;
+      niche: string;
+      subNiche: string;
+    }[];
+  }, [displayText]);
+
+  return (
+    <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1 gap-5">
+      {results?.length === 0
+        ? Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="">
+              <ReelSkeleton aspectRatio="9/12" />
+            </div>
+          ))
+        : results?.map((result, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="group"
+            >
+              <div className="relative aspect-[9/12] overflow-hidden rounded-xl">
+                <Image
+                  src={result.image}
+                  width={500}
+                  height={500}
+                  alt={`Reel-${index + 1}`}
+                  className="object-cover w-full h-full group-hover:scale-105 transition duration-300"
+                />
+
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              </div>
+
+              <div className="p-3 space-y-2">
+                <h2 className="text-sm font-medium text-white line-clamp-2">
+                  {result.caption}
+                </h2>
+
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="text-xs px-2 py-1 rounded-full bg-[#6C5CE7]/15 text-[#6C5CE7] border border-[#6C5CE7]/30">
+                    {result.niche}
+                  </span>
+
+                  <span className="text-xs px-2 py-1 rounded-full bg-[#FF4D8D]/15 text-[#FF4D8D] border border-[#FF4D8D]/30">
+                    {result.subNiche}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+    </div>
+  );
+}

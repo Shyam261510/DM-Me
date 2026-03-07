@@ -138,3 +138,7 @@
     transform: translateY(-4px);
   }
 }
+
+.strip {
+  transform: rotate(calc(var(--i) * 72deg));
+}

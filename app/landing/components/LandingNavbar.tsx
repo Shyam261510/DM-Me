@@ -12,22 +12,22 @@ const LandingNavbar = () => {
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex items-center gap-6">
             <a
-              href="#features"
-              className="text-sm font-medium text-[#A1A1AA] transition-colors hover:text-white"
-            >
-              Features
-            </a>
-            <a
-              href="#how-it-works"
-              className="text-sm font-medium text-[#A1A1AA] transition-colors hover:text-white"
-            >
-              How It Works
-            </a>
-            <a
               href="#demo"
               className="text-sm font-medium text-[#A1A1AA] transition-colors hover:text-white"
             >
               Demo
+            </a>
+            <a
+              href="#build-for-everyone"
+              className="text-sm font-medium text-[#A1A1AA] transition-colors hover:text-white"
+            >
+              Who is it for?
+            </a>
+            <a
+              href="#testimonials"
+              className="text-sm font-medium text-[#A1A1AA] transition-colors hover:text-white"
+            >
+              Testimonials
             </a>
           </nav>
 

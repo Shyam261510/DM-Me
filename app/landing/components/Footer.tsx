@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Send, Instagram } from "lucide-react";
+import Reddit from "@/app/icons/Reddit";
+import X from "@/app/icons/X";
 const Footer = () => {
   const footerLinks = {
     Product: [
-      { name: "Features", href: "#features" },
-      { name: "How It Works", href: "#how-it-works" },
-      { name: "Pricing", href: "#pricing" },
       { name: "Demo", href: "#demo" },
+      { name: "Who is it for?", href: "#build-for-everyone" },
+      { name: "testimonials", href: "#testimonials" },
     ],
 
     Legal: [
@@ -46,6 +47,30 @@ const Footer = () => {
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
+              </a>
+
+              <a
+                href="https://www.instagram.com/justdmhub/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
+                aria-label="Instagram"
+              >
+                <div className="w-5 h-5 text-white">
+                  <X />
+                </div>
+              </a>
+
+              <a
+                href="https://www.instagram.com/justdmhub/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
+                aria-label="Instagram"
+              >
+                <div className="w-5 h-5">
+                  <Reddit />
+                </div>
               </a>
             </div>
           </div>

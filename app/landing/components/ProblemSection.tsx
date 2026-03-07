@@ -27,7 +27,6 @@ import Reel11 from "@/public/reels/reel11.webp";
 import Reel12 from "@/public/reels/reel12.webp";
 import Reel13 from "@/public/reels/reel13.webp";
 import Reel14 from "@/public/reels/reel14.webp";
-import { HeadersAdapter } from "next/dist/server/web/spec-extension/adapters/headers";
 
 type Props = {
   images: StaticImageData[];
@@ -60,7 +59,7 @@ const ProblemSection = () => {
 
         <div className="flex flex-col gap-24">
           <FloatingReels images={reels} />
-          <FrustrationSection />
+          {/* <FrustrationSection /> */}
         </div>
       </section>
     </LazyMotion>
@@ -92,7 +91,6 @@ const Header = () => {
 };
 
 const FloatingReels = ({ images }: Props) => {
-  
   const positions = useMemo(
     () =>
       images.map(() => ({
@@ -187,7 +185,7 @@ const FrustrationSection = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {problems.map((item, index) => (
           <Problem
             key={index}
@@ -197,7 +195,7 @@ const FrustrationSection = () => {
             index={index}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
