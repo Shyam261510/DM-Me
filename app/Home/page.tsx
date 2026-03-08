@@ -69,7 +69,7 @@ function SetupView({ username, message, handleCopy }: SetupViewProps) {
         <SetupVideoSection />
 
         {/* Setup Card */}
-        <div className="bg-[#16161F] border border-[#23232E] rounded-xl p-6 space-y-6">
+        <div className="mt-10 bg-[#16161F] border border-[#23232E] rounded-xl p-6 space-y-6">
           {/* Instructions */}
           <div>
             <h2 className="text-lg font-semibold mb-1">Almost there 👋</h2>

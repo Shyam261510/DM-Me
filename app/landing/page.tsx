@@ -22,8 +22,10 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-white">
       <LandingNavbar />
+
       <HeroSection />
       <ProblemSection />
+
       <ProductDemoSection />
       <UseCasesSection />
       <SocialProofSection />

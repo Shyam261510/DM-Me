@@ -4,18 +4,8 @@ import { motion, Variants } from "framer-motion";
 
 import ShootingStars from "../ShootingStars";
 
-import { Instrument_Serif } from "next/font/google";
-
 import dynamic from "next/dynamic";
 const SetupVideoSection = dynamic(() => import("./SetupVideoSection"));
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400"],
-  style: ["italic"],
-});
 
 const container: Variants = {
   hidden: {},
@@ -51,7 +41,7 @@ const HeroSection = () => {
         variants={container}
         initial="hidden"
         animate="show"
-        className="flex flex-col justify-center items-center w-full h-full space-y-4 sm:space-y-8 "
+        className="flex flex-col justify-center items-center w-full h-full space-y-8 sm:space-y-12"
       >
         <motion.h2
           variants={item}
@@ -62,7 +52,7 @@ const HeroSection = () => {
 
         <motion.h2
           variants={item}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-normal w-full text-center"
+          className="text-5xl  md:text-7xl lg:text-8xl tracking-normal w-full text-center"
         >
           Saved a reel.. but{" "}
           <span className="tracking-tight px-1 sm:px-2 bg-gradient-to-r from-[#FF4D8D] to-[#FF8A00] bg-clip-text text-transparent">
@@ -72,14 +62,17 @@ const HeroSection = () => {
 
         <motion.p
           variants={item}
-          className="text-sm sm:text-base lg:text-lg text-zinc-300 text-center w-[90%] sm:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto"
+          className="text-base  lg:text-lg text-zinc-300 text-center w-[90%] sm:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto"
         >
           Stop losing your favorite Instagram reels in the void. JustDM
           organizes your saves into searchable, actionable collections so you
           can actually find them later.
         </motion.p>
 
-        <motion.div variants={item} className="w-full pointer-events-none z-10">
+        <motion.div
+          variants={item}
+          className="w-full h-full pointer-events-none z-10"
+        >
           <SetupVideoSection />
         </motion.div>
       </motion.div>

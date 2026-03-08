@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Send, Instagram } from "lucide-react";
 import Reddit from "@/app/icons/Reddit";
 import X from "@/app/icons/X";
+import { link } from "fs";
 const Footer = () => {
   const footerLinks = {
     Product: [
@@ -19,6 +20,28 @@ const Footer = () => {
     ],
   };
 
+  const SOCIAL_LINKS = [
+    {
+      icon: <Instagram className="w-5 h-5" />,
+      link: "https://www.instagram.com/justdmhub/",
+    },
+    {
+      icon: (
+        <div className="w-5 h-5 text-white">
+          <X />
+        </div>
+      ),
+      link: "https://x.com/shyamsharm8511",
+    },
+    {
+      icon: (
+        <div className="w-5 h-5">
+          <Reddit />
+        </div>
+      ),
+      link: "https://www.reddit.com/user/Broad_Loan2883/",
+    },
+  ];
   return (
     <footer className="relative border-t border-[#23232E] bg-[#0B0B0F]">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -39,39 +62,18 @@ const Footer = () => {
               them instantly. Built for creators.
             </p>
             <div className="flex items-center gap-4">
-              <a
-                href="https://www.instagram.com/justdmhub/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-
-              <a
-                href="https://www.instagram.com/justdmhub/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
-                aria-label="Instagram"
-              >
-                <div className="w-5 h-5 text-white">
-                  <X />
-                </div>
-              </a>
-
-              <a
-                href="https://www.instagram.com/justdmhub/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
-                aria-label="Instagram"
-              >
-                <div className="w-5 h-5">
-                  <Reddit />
-                </div>
-              </a>
+              {SOCIAL_LINKS.map((social, index) => (
+                <a
+                  href={social.link}
+                  key={index}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-[#16161F] border border-[#23232E] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#6C5CE7]/50 transition-colors"
+                  aria-label="Instagram"
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
 

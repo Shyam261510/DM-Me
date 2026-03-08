@@ -54,7 +54,7 @@ const ProblemSection = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section id="problem" className="py-20">
+      <section id="problem" className="py-0 md:py-20">
         <Header />
 
         <div className="flex flex-col gap-24">
@@ -142,109 +142,6 @@ const FloatingReels = ({ images }: Props) => {
           </m.div>
         );
       })}
-    </div>
-  );
-};
-
-const FrustrationSection = () => {
-  const problems = [
-    {
-      Icon: IconSearch,
-      title: "No Search",
-      description:
-        "Can't find that reel you saved last week? Good luck scrolling through hundreds of saves.",
-    },
-    {
-      Icon: IconSwipeDown,
-      title: "Endless Scrolling",
-      description:
-        "Waste time digging through your saved folder instead of finding what you need instantly.",
-    },
-    {
-      Icon: IconTag,
-      title: "No Tagging",
-      description:
-        "No way to organize or categorize your saved content. Everything just piles up.",
-    },
-    {
-      Icon: IconAlertCircle,
-      title: "Content Gets Lost",
-      description:
-        "Important reels disappear in the chaos. Never find that inspiration again.",
-    },
-  ];
-
-  return (
-    <div className="relative py-20 px-6">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white mb-4">
-          Saving Reels is Broken
-        </h2>
-        <p className="text-lg text-zinc-400 max-w-xl mx-auto">
-          We've all been there. Here's what makes it frustrating.
-        </p>
-      </div>
-
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {problems.map((item, index) => (
-          <Problem
-            key={index}
-            title={item.title}
-            description={item.description}
-            Icon={item.Icon}
-            index={index}
-          />
-        ))}
-      </div> */}
-    </div>
-  );
-};
-
-const Problem = ({
-  title,
-  description,
-  Icon,
-  index,
-}: {
-  title: string;
-  description: string;
-  Icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-  index: number;
-}) => {
-  return (
-    <div
-      className={cn(
-        "group relative flex flex-col justify-between",
-        "p-8 rounded-2xl",
-        "bg-white/[0.03] dark:bg-white/[0.02]",
-        "border border-white/10",
-        "backdrop-blur-xl",
-        "transition-all duration-300",
-        "hover:-translate-y-1 hover:border-white/20 hover:shadow-xl",
-      )}
-    >
-      {/* Hover Glow */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
-
-      {/* Top Accent Line */}
-      <div className="absolute top-0 left-0 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-all duration-500" />
-
-      {/* Icon */}
-      <div className="relative z-10 mb-6">
-        <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-neutral-300 group-hover:text-white transition">
-          <Icon className="w-6 h-6" />
-        </div>
-      </div>
-
-      {/* Title */}
-      <h3 className="relative z-10 text-lg font-semibold text-neutral-100 mb-2 group-hover:translate-x-1 transition duration-200">
-        {title}
-      </h3>
-
-      {/* Description */}
-      <p className="relative z-10 text-sm text-neutral-400 leading-relaxed">
-        {description}
-      </p>
     </div>
   );
 };

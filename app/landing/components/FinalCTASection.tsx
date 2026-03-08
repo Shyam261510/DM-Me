@@ -1,12 +1,9 @@
 "use client";
 
-import useSignIn from "@/hooks/useSignIn";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
-
+import Link from "next/link";
 const FinalCTASection = () => {
-  const handleSignIn = useSignIn();
-
   const benefits = [
     "Easy to use",
     "Instant setup",
@@ -66,19 +63,19 @@ const FinalCTASection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <button
-              onClick={handleSignIn}
+            <Link
+              href="/login"
               className="group px-8 py-4 text-lg font-semibold text-white rounded-2xl bg-gradient-to-r from-[#6C5CE7] to-[#FF4D8D] transition-all hover:shadow-lg hover:shadow-[#6C5CE7]/50 hover:scale-105 active:scale-95 flex items-center gap-2"
             >
               Get Started Free
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button
-              onClick={handleSignIn}
+            </Link>
+            <Link
+              href="/login"
               className="px-8 py-4 text-lg font-semibold text-white rounded-2xl bg-[#16161F] border border-[#23232E] transition-all hover:bg-[#1a1a24] hover:border-[#6C5CE7]/50"
             >
               DM Me
-            </button>
+            </Link>
           </div>
 
           {/* Benefits */}

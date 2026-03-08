@@ -116,7 +116,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="pb-20">{children}</div>
 
         {/* Bottom Navigation */}
-        <NavigationTabs Tabs={Tabs} />
+        {user?.reciverId && <NavigationTabs Tabs={Tabs} />}
       </div>
     </div>
   );

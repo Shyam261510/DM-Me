@@ -17,7 +17,7 @@ interface RadialOrbitalTimelineProps {
 export default function RadialOrbitalTimeline({
   timelineData,
 }: RadialOrbitalTimelineProps) {
-  const randomIndex = Math.floor(Math.random() * timelineData.length);
+  const randomIndex = Math.floor(0);
   const randomId = timelineData[randomIndex]?.id;
 
   const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>(
@@ -62,7 +62,7 @@ export default function RadialOrbitalTimeline({
 
     if (autoRotate) {
       timer = setInterval(() => {
-        setRotationAngle((prev) => (prev + 0.8) % 360);
+        setRotationAngle((prev) => (prev + 0.3) % 360);
       }, 40);
     }
 
