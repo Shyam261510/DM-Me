@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Send, Instagram } from "lucide-react";
 import Reddit from "@/app/icons/Reddit";
 import X from "@/app/icons/X";
-import { link } from "fs";
+
 const Footer = () => {
   const footerLinks = {
     Product: [

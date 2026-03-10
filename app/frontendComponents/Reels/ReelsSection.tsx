@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Role } from "@/interface";
 import DialogButton from "@/app/frontendComponents/Custom/Dialog/DialogButton";
 import { Plus } from "lucide-react";
+import ReelSkeleton from "./ReelSkeleton";
 
 const Reels = dynamic(() => import("@/app/frontendComponents/Reels/Reels"), {
   loading: () => <ReelsSkeleton />,
@@ -105,8 +106,10 @@ export function ReelSection({
 
         {/* Fetching Skeleton */}
         {isFetching && (
-          <div className="mt-4 sm:mt-6">
-            <ReelsSkeleton />
+          <div className="mt-4 sm:mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <ReelSkeleton key={i} />
+            ))}
           </div>
         )}
       </div>

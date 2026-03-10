@@ -82,7 +82,7 @@ function useGroup() {
       return res.data;
     },
     enabled: status === "authenticated",
-    staleTime: 20_000,
+    staleTime: 30 * 60 * 1000, // 30 minutes
   });
 
   useEffect(() => {

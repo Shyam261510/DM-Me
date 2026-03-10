@@ -57,7 +57,7 @@ export const useUserData = () => {
   const userQuery = useQuery({
     queryKey: ["user", session?.user?.id], // re-fetches automatically if the user id changes
     enabled: status === "authenticated", // do not run until the session is confirmed
-    staleTime: 20_000, // treat cached data as fresh for 20 s
+    staleTime: 30 * 60 * 1000, // 30 minutes
     queryFn: async () => {
       const res = await axios.get(
         `/api/auth/getUserInfo?userId=${session?.user?.id}`,
